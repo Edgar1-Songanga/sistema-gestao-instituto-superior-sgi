@@ -5,246 +5,421 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SGI | Instituto Superior Privado Rei Luhuna</title>
+<title>Smart Campus Platform | Instituto Superior Privado Rei Luhuna</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
-*{
+body{
 margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Montserrat',sans-serif;
+font-family:'Inter',sans-serif;
+background:#f4f6f9;
+color:#222;
 }
 
-body{
+/* LOGIN */
+
+#login{
 display:flex;
-background:#f4f6fb;
-color:#333;
+height:100vh;
+align-items:center;
+justify-content:center;
+background:#0b1f3a;
+color:white;
 }
+
+.login-box{
+background:white;
+color:black;
+padding:40px;
+border-radius:12px;
+width:300px;
+text-align:center;
+}
+
+.login-box input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:5px;
+}
+
+.login-box button{
+width:100%;
+padding:10px;
+background:#0b1f3a;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+/* LAYOUT */
 
 .sidebar{
-width:260px;
-background:#0A1F44;
+width:240px;
+background:#0b1f3a;
 height:100vh;
-color:white;
-padding:25px;
 position:fixed;
+color:white;
+padding:20px;
 }
 
 .sidebar h2{
-color:#C9A227;
-margin-bottom:35px;
-font-weight:700;
+font-family:'Playfair Display';
+font-size:20px;
 }
 
-.sidebar ul{
-list-style:none;
-}
-
-.sidebar li{
+.sidebar button{
+display:block;
+width:100%;
 padding:12px;
-border-radius:8px;
-margin-bottom:10px;
+border:none;
+background:none;
+color:white;
+text-align:left;
 cursor:pointer;
-transition:.3s;
 }
 
-.sidebar li:hover{
-background:#1a3470;
+.sidebar button:hover{
+background:#142f56;
+border-radius:6px;
 }
 
 .main{
-margin-left:260px;
-padding:35px;
+margin-left:240px;
+padding:30px;
+}
+
+/* HEADER */
+
+.topbar{
+background:white;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+margin-bottom:20px;
+}
+
+.topbar h1{
+font-family:'Playfair Display';
+margin:0;
+font-size:22px;
+}
+
+/* HERO */
+
+.hero{
+height:260px;
+background:url("https://images.unsplash.com/photo-1562774053-701939374585") center/cover;
+border-radius:10px;
+margin-bottom:30px;
+display:flex;
+align-items:center;
+}
+
+.hero-overlay{
+background:rgba(0,0,0,0.55);
 width:100%;
+padding:40px;
+color:white;
+border-radius:10px;
 }
 
-.header h1{
-font-size:28px;
-font-weight:700;
-color:#0A1F44;
-}
-
-.header p{
-margin-top:5px;
-color:#666;
-}
+/* CARDS */
 
 .cards{
-margin-top:35px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:20px;
 }
 
 .card{
 background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.05);
-transition:.3s;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+text-align:center;
 }
 
-.card:hover{
-transform:translateY(-5px);
-}
-
-.card h3{
-font-size:14px;
-color:#777;
-}
-
-.card p{
-font-size:26px;
-font-weight:700;
-color:#0A1F44;
-margin-top:8px;
-}
-
-.module{
-display:none;
-margin-top:40px;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.05);
-}
-
-.active{
-display:block;
-}
-
-.module h2{
-margin-bottom:20px;
-color:#0A1F44;
-}
+/* TABLE */
 
 table{
 width:100%;
 border-collapse:collapse;
+background:white;
+margin-top:20px;
 }
 
-table th,table td{
+th,td{
 padding:12px;
 border-bottom:1px solid #eee;
-text-align:left;
 }
 
-table th{
-background:#f3f5fa;
+/* PROFILES */
+
+.profile-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
-.chart{
-margin-top:30px;
+.profile{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.profile img{
+width:80px;
+border-radius:50%;
+}
+
+/* BLOG */
+
+.blog-card{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.page{
+display:none;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:40px;
+text-align:center;
+color:#666;
+font-size:13px;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
+<div id="login">
+
+<div class="login-box">
+
+<h2>Smart Campus Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Senha">
+
+<button onclick="login()">Entrar</button>
+
+<p style="font-size:12px">admin@reiluhuna.edu.ao<br>senha: demo123</p>
+
+</div>
+
+</div>
+
+<!-- SISTEMA -->
+
+<div id="system" style="display:none">
+
 <div class="sidebar">
 
-<h2>SGI</h2>
+<h2>ISP Rei Luhuna</h2>
 
-<ul>
-
-<li onclick="showModule('dashboard')">Dashboard</li>
-<li onclick="showModule('academico')">Gestão Académica</li>
-<li onclick="showModule('financeiro')">Financeiro</li>
-<li onclick="showModule('docentes')">Docentes</li>
-<li onclick="showModule('biblioteca')">Biblioteca</li>
-<li onclick="showModule('relatorios')">Relatórios</li>
-
-</ul>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('students')">Estudantes</button>
+<button onclick="showPage('teachers')">Docentes</button>
+<button onclick="showPage('finance')">Financeiro</button>
+<button onclick="showPage('library')">Biblioteca</button>
+<button onclick="showPage('lms')">LMS</button>
+<button onclick="showPage('blog')">Blog</button>
+<button onclick="showPage('about')">Sobre</button>
 
 </div>
 
 <div class="main">
 
-<div class="header">
+<div class="topbar">
 
-<h1>Sistema de Gestão Institucional</h1>
+<div>
+
+<h1>Smart Campus Platform</h1>
 <p>Instituto Superior Privado Rei Luhuna</p>
 
 </div>
 
-<div id="dashboard" class="module active">
+<div>
+<i class="fa fa-user"></i> Administração
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page">
+
+<div class="hero">
+
+<div class="hero-overlay">
+
+<h2>Transformação Digital do Ensino Superior</h2>
+
+<p>Plataforma inteligente de gestão académica, administrativa e financeira.</p>
+
+</div>
+
+</div>
 
 <div class="cards">
 
 <div class="card">
-<h3>Total de Estudantes</h3>
-<p>1,245</p>
+<i class="fa fa-user-graduate"></i>
+<h3>Estudantes</h3>
+<h2>1284</h2>
 </div>
 
 <div class="card">
+<i class="fa fa-chalkboard-user"></i>
 <h3>Docentes</h3>
-<p>87</p>
+<h2>87</h2>
 </div>
 
 <div class="card">
+<i class="fa fa-book"></i>
 <h3>Cursos</h3>
-<p>24</p>
+<h2>23</h2>
 </div>
 
 <div class="card">
-<h3>Receita Mensal</h3>
-<p>12.5M AOA</p>
+<i class="fa fa-chart-line"></i>
+<h3>Receita</h3>
+<h2>32M Kz</h2>
 </div>
 
 </div>
 
-<div class="chart">
-
-<canvas id="studentsChart"></canvas>
+<canvas id="chart" style="margin-top:30px"></canvas>
 
 </div>
 
-</div>
+<!-- STUDENTS -->
 
-<div id="academico" class="module">
+<div id="students" class="page">
 
-<h2>Gestão Académica</h2>
+<h2>Portal de Estudantes</h2>
 
-<table>
+<input placeholder="Pesquisar estudante..." onkeyup="searchStudent(this.value)">
+
+<table id="studentsTable">
 
 <tr>
-<th>Estudante</th>
+<th>Nome</th>
 <th>Curso</th>
 <th>Ano</th>
 </tr>
 
 <tr>
-<td>Maria Silva</td>
+<td>Maria António</td>
 <td>Direito</td>
-<td>2º</td>
-</tr>
-
-<tr>
-<td>João Manuel</td>
-<td>Economia</td>
 <td>3º</td>
 </tr>
 
 <tr>
-<td>Ana Pedro</td>
+<td>João Manuel</td>
 <td>Gestão</td>
+<td>2º</td>
+</tr>
+
+<tr>
+<td>Ana Paulo</td>
+<td>Informática</td>
 <td>1º</td>
 </tr>
 
 </table>
 
+<h3 style="margin-top:30px">Perfis</h3>
+
+<div class="profile-grid">
+
+<div class="profile">
+
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+
+<h3>Maria António</h3>
+
+<p>Curso: Direito</p>
+
+<p>Média: 16</p>
+
 </div>
 
-<div id="financeiro" class="module">
+<div class="profile">
 
-<h2>Gestão Financeira</h2>
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+
+<h3>João Manuel</h3>
+
+<p>Curso: Gestão</p>
+
+<p>Média: 15</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TEACHERS -->
+
+<div id="teachers" class="page">
+
+<h2>Docentes</h2>
+
+<div class="profile-grid">
+
+<div class="profile">
+
+<img src="https://randomuser.me/api/portraits/men/52.jpg">
+
+<h3>Dr. Carlos Mendes</h3>
+
+<p>Direito Constitucional</p>
+
+</div>
+
+<div class="profile">
+
+<img src="https://randomuser.me/api/portraits/women/55.jpg">
+
+<h3>Dra. Paula Fernandes</h3>
+
+<p>Gestão Financeira</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FINANCE -->
+
+<div id="finance" class="page">
+
+<h2>Financeiro</h2>
 
 <table>
 
@@ -255,14 +430,14 @@ margin-top:30px;
 </tr>
 
 <tr>
-<td>Maria Silva</td>
-<td>120.000 AOA</td>
-<td>Pago</td>
+<td>Maria António</td>
+<td>250.000 Kz</td>
+<td>Paga</td>
 </tr>
 
 <tr>
 <td>João Manuel</td>
-<td>120.000 AOA</td>
+<td>250.000 Kz</td>
 <td>Pendente</td>
 </tr>
 
@@ -270,47 +445,89 @@ margin-top:30px;
 
 </div>
 
-<div id="docentes" class="module">
+<!-- LIBRARY -->
 
-<h2>Docentes</h2>
+<div id="library" class="page">
+
+<h2>Biblioteca</h2>
 
 <table>
 
 <tr>
-<th>Nome</th>
-<th>Departamento</th>
-<th>Carga Horária</th>
+<th>Livro</th>
+<th>Autor</th>
+<th>Status</th>
 </tr>
 
 <tr>
-<td>Dr. António Costa</td>
-<td>Direito</td>
-<td>12h</td>
-</tr>
-
-<tr>
-<td>Dra. Paula Mendes</td>
-<td>Economia</td>
-<td>10h</td>
+<td>Introdução ao Direito</td>
+<td>Silva Neto</td>
+<td>Disponível</td>
 </tr>
 
 </table>
 
 </div>
 
-<div id="biblioteca" class="module">
+<!-- LMS -->
 
-<h2>Biblioteca</h2>
+<div id="lms" class="page">
 
-<p>Sistema de gestão de livros, empréstimos e biblioteca digital.</p>
+<h2>LMS</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Programação Web</h3>
+<p>Progresso: 65%</p>
+</div>
+
+<div class="card">
+<h3>Direito Constitucional</h3>
+<p>Progresso: 40%</p>
+</div>
 
 </div>
 
-<div id="relatorios" class="module">
+</div>
 
-<h2>Relatórios Institucionais</h2>
+<!-- BLOG -->
 
-<canvas id="financeChart"></canvas>
+<div id="blog" class="page">
+
+<h2>Notícias</h2>
+
+<div class="blog-card">
+
+<h3>Conferência Internacional</h3>
+
+<p>Especialistas discutiram inovação no ensino superior.</p>
+
+</div>
+
+</div>
+
+<!-- ABOUT -->
+
+<div id="about" class="page">
+
+<h2>Sobre o Instituto</h2>
+
+<p>
+
+O Instituto Superior Privado Rei Luhuna dedica-se à formação de profissionais altamente qualificados e à promoção da inovação científica.
+
+</p>
+
+</div>
+
+<div class="footer">
+
+<p>© 2026 Instituto Superior Privado Rei Luhuna</p>
+
+<p>Powered by Magestade Pura Digital</p>
+
+</div>
 
 </div>
 
@@ -318,46 +535,69 @@ margin-top:30px;
 
 <script>
 
-function showModule(id){
+function login(){
 
-document.querySelectorAll(".module").forEach(m=>{
-m.classList.remove("active")
-})
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
 
-document.getElementById(id).classList.add("active")
+if(email=="admin@reiluhuna.edu.ao" && password=="demo123"){
+
+document.getElementById("login").style.display="none";
+document.getElementById("system").style.display="block";
+
+showPage("dashboard");
 
 }
 
-const ctx=document.getElementById('studentsChart');
+}
 
-new Chart(ctx,{
+function showPage(page){
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+
+document.getElementById(page).style.display="block";
+
+}
+
+function searchStudent(value){
+
+let rows=document.querySelectorAll("#studentsTable tr");
+
+rows.forEach(row=>{
+
+if(row.innerText.toLowerCase().includes(value.toLowerCase()))
+
+row.style.display="";
+
+else
+
+row.style.display="none";
+
+});
+
+}
+
+new Chart(document.getElementById("chart"),{
+
 type:'bar',
+
 data:{
-labels:['Direito','Economia','Gestão','Engenharia'],
+
+labels:['Direito','Gestão','Informática','Contabilidade'],
+
 datasets:[{
+
 label:'Estudantes por Curso',
-data:[320,280,220,180],
-backgroundColor:'#0A1F44'
-}]
-}
-})
 
-const ctx2=document.getElementById('financeChart');
+data:[320,280,240,190]
 
-new Chart(ctx2,{
-type:'line',
-data:{
-labels:['Jan','Fev','Mar','Abr','Mai'],
-datasets:[{
-label:'Receitas (AOA)',
-data:[2000000,2400000,3000000,2800000,3500000],
-borderColor:'#C9A227',
-backgroundColor:'rgba(201,162,39,0.2)'
 }]
+
 }
-})
+
+});
 
 </script>
 
 </body>
-  </html>
+</html>

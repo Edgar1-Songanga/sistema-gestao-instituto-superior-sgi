@@ -1,1 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Sistema de Gestão Universitário</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+display:flex;
+background:#f5f7fb;
+color:#333;
+}
+
+.sidebar{
+width:250px;
+height:100vh;
+background:#0A1F44;
+color:white;
+padding:20px;
+position:fixed;
+}
+
+.sidebar h2{
+margin-bottom:30px;
+color:#C9A227;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+padding:12px;
+margin-bottom:10px;
+cursor:pointer;
+border-radius:6px;
+}
+
+.sidebar li:hover{
+background:#162f66;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+width:100%;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:26px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-bottom:40px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card h3{
+font-size:14px;
+margin-bottom:10px;
+color:#666;
+}
+
+.card p{
+font-size:24px;
+font-weight:bold;
+color:#0A1F44;
+}
+
+.module{
+display:none;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+.module h2{
+margin-bottom:20px;
+color:#0A1F44;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th, table td{
+padding:12px;
+border-bottom:1px solid #ddd;
+text-align:left;
+}
+
+table th{
+background:#f1f3f8;
+}
+
+.active{
+display:block;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>SGU</h2>
+
+<ul>
+
+<li onclick="showModule('dashboard')">Dashboard</li>
+<li onclick="showModule('academico')">Gestão Académica</li>
+<li onclick="showModule('financeiro')">Financeiro</li>
+<li onclick="showModule('docentes')">Docentes</li>
+<li onclick="showModule('estudantes')">Estudantes</li>
+<li onclick="showModule('rh')">Recursos Humanos</li>
+<li onclick="showModule('biblioteca')">Biblioteca</li>
+<li onclick="showModule('comunicacao')">Comunicação</li>
+<li onclick="showModule('seguranca')">Segurança</li>
+<li onclick="showModule('relatorios')">Relatórios</li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<div class="header">
+
+<h1>Sistema de Gestão Universitário</h1>
+
+</div>
+
+<div id="dashboard" class="module active">
+
+<div class="cards">
+
+<div class="card">
+<h3>Estudantes</h3>
+<p>1,245</p>
+</div>
+
+<div class="card">
+<h3>Docentes</h3>
+<p>87</p>
+</div>
+
+<div class="card">
+<h3>Cursos</h3>
+<p>24</p>
+</div>
+
+<div class="card">
+<h3>Receita Mensal</h3>
+<p>AOA 12M</p>
+</div>
+
+</div>
+
+</div>
+
+<div id="academico" class="module">
+
+<h2>Gestão Académica</h2>
+
+<table>
+
+<tr>
+<th>Estudante</th>
+<th>Curso</th>
+<th>Ano</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Maria Silva</td>
+<td>Direito</td>
+<td>2º</td>
+<td>Activo</td>
+</tr>
+
+<tr>
+<td>João Manuel</td>
+<td>Economia</td>
+<td>3º</td>
+<td>Activo</td>
+</tr>
+
+</table>
+
+</div>
+
+<div id="financeiro" class="module">
+
+<h2>Financeiro</h2>
+
+<table>
+
+<tr>
+<th>Estudante</th>
+<th>Propina</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Maria Silva</td>
+<td>120.000 AOA</td>
+<td>Pago</td>
+</tr>
+
+<tr>
+<td>João Manuel</td>
+<td>120.000 AOA</td>
+<td>Pendente</td>
+</tr>
+
+</table>
+
+</div>
+
+<div id="docentes" class="module">
+
+<h2>Docentes</h2>
+
+<table>
+
+<tr>
+<th>Nome</th>
+<th>Departamento</th>
+<th>Carga Horária</th>
+</tr>
+
+<tr>
+<td>Dr. António Costa</td>
+<td>Direito</td>
+<td>12h</td>
+</tr>
+
+<tr>
+<td>Dra. Paula Mendes</td>
+<td>Economia</td>
+<td>10h</td>
+</tr>
+
+</table>
+
+</div>
+
+<div id="estudantes" class="module">
+
+<h2>Portal do Estudante</h2>
+
+<p>Consulta de notas, situação financeira e documentos académicos.</p>
+
+</div>
+
+<div id="rh" class="module">
+
+<h2>Recursos Humanos</h2>
+
+<p>Gestão de funcionários, salários, férias e contratos.</p>
+
+</div>
+
+<div id="biblioteca" class="module">
+
+<h2>Biblioteca</h2>
+
+<p>Gestão de livros, empréstimos e biblioteca digital.</p>
+
+</div>
+
+<div id="comunicacao" class="module">
+
+<h2>Comunicação Institucional</h2>
+
+<p>Envio de avisos, emails e SMS institucionais.</p>
+
+</div>
+
+<div id="seguranca" class="module">
+
+<h2>Segurança</h2>
+
+<p>Controle de acesso, logs de actividade e backups.</p>
+
+</div>
+
+<div id="relatorios" class="module">
+
+<h2>Relatórios</h2>
+
+<p>Indicadores estratégicos e relatórios académicos.</p>
+
+</div>
+
+</div>
+
+<script>
+
+function showModule(id){
+
+var modules=document.querySelectorAll(".module");
+
+modules.forEach(function(module){
+module.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+}
+
+</script>
+
+</body>
+  </html>

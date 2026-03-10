@@ -7,10 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f8f9fa,#e9ecef);}
+/* Reset e fonte */
+body{margin:0;font-family:'Inter',sans-serif;background:#f0f2f5;}
 a{text-decoration:none;color:#0b3d91;}
 h1,h2,h3,h4,h5,h6{color:#0b3d91;}
-ul{list-style:none;padding-left:0;}
+
+/* Sidebar */
+#sidebar{position:fixed;top:0;left:0;height:100%;width:250px;background:#0b3d91;color:white;padding-top:20px;overflow-y:auto;transition:0.3s;display:none;}
+#sidebar h2{text-align:center;margin-bottom:30px;}
+#sidebar a{display:block;padding:12px 20px;font-weight:600;transition:0.2s;}
+#sidebar a:hover{background:#092b6b;border-radius:8px;}
+#content-wrapper{margin-left:250px;padding:20px;display:none;}
+
 /* Login */
 #login-section{display:flex;justify-content:center;align-items:center;height:100vh;}
 #login-box{background:white;padding:40px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.15);width:350px;text-align:center;}
@@ -22,30 +30,34 @@ ul{list-style:none;padding-left:0;}
 .btn-login:hover{background:#092b6b;}
 .forgot{margin-top:10px;}
 .login-message{margin-top:15px;font-weight:500;text-align:center;}
-/* Menu */
-#menu{background:#0b3d91;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;position:fixed;width:100%;top:0;z-index:100;}
-#menu a{color:white;margin:0 10px;font-weight:600;}
-#menu h2{font-size:20px;}
-/* Dashboard */
-#dashboard{margin-top:80px;padding:20px;}
+
+/* Cards */
 .cards{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px;}
 .card{flex:1 1 220px;background:white;padding:20px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;text-align:center;}
 .card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,0.2);}
 .card img{width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:10px;}
 .card h3{margin-bottom:10px;color:#0b3d91;}
 .card p{font-size:16px;font-weight:500;}
+
 /* Tabelas */
 .detail-table{width:100%;border-collapse:collapse;margin-bottom:30px;}
 .detail-table th, .detail-table td{padding:12px;text-align:left;border-bottom:1px solid #ddd;}
 .detail-table th{background:#f1f3f5;color:#0b3d91;}
-/* Seções */
+
+/* Sections */
 section{background:white;margin-bottom:30px;padding:30px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
 section h2{margin-bottom:15px;}
+
 /* Rodapé */
 footer{text-align:center;padding:20px;background:#0b3d91;color:white;border-top:4px solid #092b6b;}
+
+/* Scrollbar */
+#sidebar::-webkit-scrollbar{width:6px;}
+#sidebar::-webkit-scrollbar-thumb{background:#092b6b;border-radius:3px;}
 </style>
 </head>
 <body>
+
 <!-- Login -->
 <div id="login-section">
   <div id="login-box">
@@ -66,25 +78,23 @@ footer{text-align:center;padding:20px;background:#0b3d91;color:white;border-top:
   </div>
 </div>
 
-<!-- Menu -->
-<div id="menu" style="display:none;">
+<!-- Sidebar -->
+<div id="sidebar">
   <h2>ISPRL</h2>
-  <div>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#students">Estudantes</a>
-    <a href="#faculty">Docentes</a>
-    <a href="#hr">RH</a>
-    <a href="#finance">Financeiro</a>
-    <a href="#library">Biblioteca</a>
-    <a href="#lms">LMS</a>
-    <a href="#events">Eventos</a>
-    <a href="#blog">Blog</a>
-    <a href="#about">Sobre Nós</a>
-  </div>
+  <a href="#dashboard">Dashboard</a>
+  <a href="#students">Estudantes</a>
+  <a href="#faculty">Docentes</a>
+  <a href="#hr">RH</a>
+  <a href="#finance">Financeiro</a>
+  <a href="#library">Biblioteca</a>
+  <a href="#lms">LMS</a>
+  <a href="#events">Eventos</a>
+  <a href="#blog">Blog</a>
+  <a href="#about">Sobre Nós</a>
 </div>
 
 <!-- Conteúdo -->
-<div id="content" style="display:none;">
+<div id="content-wrapper">
   <!-- Dashboard -->
   <section id="dashboard">
     <h2>Dashboard</h2>
@@ -176,20 +186,21 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
   msg.textContent='Login efetuado com sucesso! Redirecionando...';msg.style.color='green';
   setTimeout(()=>{
     document.getElementById('login-section').style.display='none';
-    document.getElementById('menu').style.display='flex';
-    document.getElementById('content').style.display='block';
+    document.getElementById('sidebar').style.display='block';
+    document.getElementById('content-wrapper').style.display='block';
     window.location.href='#dashboard';
     initDemoData();
   },1200);
 });
 
 function initDemoData(){
+  // Students
   const studentCards=document.getElementById('studentCards');
   const students=[
-    {name:'Paulo Kandjimbo',course:'Engenharia Informática',year:'3º',img:'https://randomuser.me/api/portraits/men/75.jpg'},
-    {name:'Maria Helena Tchipipa',course:'Administração e Gestão',year:'2º',img:'https://randomuser.me/api/portraits/women/65.jpg'},
-    {name:'Domingos Tchipilongo',course:'Contabilidade e Finanças',year:'4º',img:'https://randomuser.me/api/portraits/men/76.jpg'},
-    {name:'Rosa Tchissola',course:'Engenharia Informática',year:'1º',img:'https://randomuser.me/api/portraits/women/66.jpg'}
+    {name:'Paulo Kandjimbo',course:'Engenharia Informática',year:'3º',img:'https://images.generated.photos/4nH07Qn2u7xqFxk2bE4h6ghDrUYV1q_jrK7Zq_Sb2wA/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzA0L2FjLzI1LzA0YWMyNWI0OGQ1YjBiODg2YmI4Y2IzYjE0NjM0MDQzLmpwZw.jpg'},
+    {name:'Maria Helena Tchipipa',course:'Administração e Gestão',year:'2º',img:'https://images.generated.photos/1b7lPZx_g8ZIBZ_PQb6k_f1hFTXOWlYuXJ1YjJZDJvQ/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzAxL2M3LzIxLzAxYzc3YjI1NDk4MGI3YmRkZjc1Y2E0NmMyNzU0MjY0LmpwZw.jpg'},
+    {name:'Domingos Tchipilongo',course:'Contabilidade e Finanças',year:'4º',img:'https://images.generated.photos/3ZVmnx5xE7lvqM6ht9IXxhG1GcqLv6Upz30qW04y49g/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzAzL2M1LzI0LzAzYzUyYzA1ZjkyYjE1MTg4MzA1YTZhOTQ0Y2E1MzMuanBn.jpg'},
+    {name:'Rosa Tchissola',course:'Engenharia Informática',year:'1º',img:'https://images.generated.photos/7I1tqlN0P17kA4Vx3xKp7L_J1Hz0dC0w3U0oOczY6hI/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzA3L2M1LzI1LzA3YzU4M2M2ZWM3MzE5MjUwZDUwMjY1MjI4YTZkNjMwLmpwZw.jpg'}
   ];
   students.forEach(s=>{
     const div=document.createElement('div');
@@ -198,11 +209,12 @@ function initDemoData(){
     studentCards.appendChild(div);
   });
 
+  // Faculty
   const facultyCards=document.getElementById('facultyCards');
   const faculty=[
-    {name:'Dr. Inocêncio Graça Lopes',dept:'Engenharia Informática',spec:'IA, Sistemas Distribuídos, Software',img:'https://randomuser.me/api/portraits/men/77.jpg'},
-    {name:'Eng. Edson Casemiro',dept:'Sistemas de Informação',spec:'Bases de Dados, Desenvolvimento Web',img:'https://randomuser.me/api/portraits/men/78.jpg'},
-    {name:'Dra. Lídia Mavungo',dept:'Economia',spec:'Economia Africana, Finanças Públicas',img:'https://randomuser.me/api/portraits/women/67.jpg'}
+    {name:'Dr. Inocêncio Graça Lopes',dept:'Engenharia Informática',spec:'IA, Sistemas Distribuídos, Software',img:'https://images.generated.photos/5eU5xn2iSqtPmZ9EvsuDrB98lrmVh2hMv8k4jON7S3I/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzA1L2M0LzI1LzA1YzQ2ZGIyZTUxYzIzNjM5ODRhMTNjNmY1NmQ1MmJjLmpwZw.jpg'},
+    {name:'Eng. Edson Casemiro',dept:'Sistemas de Informação',spec:'Bases de Dados, Desenvolvimento Web',img:'https://images.generated.photos/6pZXYRz0A3_Ur8qg2l92D9jD5j7G3P1U0dYfY5yF0k0/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzA2L2M1LzI1LzA2YzU4YzA2ZWM3MzE5MjUwZDUwMjY1MjI4YTZkNjMwLmpwZw.jpg'},
+    {name:'Dra. Lídia Mavungo',dept:'Economia',spec:'Economia Africana, Finanças Públicas',img:'https://images.generated.photos/2tR9Jg2YQz2KhFw4lP1e3fB1mTz5B8F1Y9a4sZxX0nQ/rs:fit:512:512/czM6Ly9nZW5lcmF0ZWRfcGhvdG9zLzAyL2M1LzI0LzAyYzU0YzI1ZjkyYjE1MTg4MzA1YTZhOTQ0Y2E1MzMuanBn.jpg'}
   ];
   faculty.forEach(f=>{
     const div=document.createElement('div');
@@ -211,6 +223,7 @@ function initDemoData(){
     facultyCards.appendChild(div);
   });
 
+  // RH
   const hrData=[
     {name:'Marta Hilária Katchiungo',dept:'RH',role:'Diretora de RH'},
     {name:'João António Chipepo',dept:'RH',role:'Gestor de Recrutamento'},
@@ -220,6 +233,7 @@ function initDemoData(){
   hrTable.innerHTML='<tr><th>Nome</th><th>Departamento</th><th>Cargo</th></tr>';
   hrData.forEach(r=>{hrTable.innerHTML+=`<tr><td>${r.name}</td><td>${r.dept}</td><td>${r.role}</td></tr>`;});
 
+  // Financeiro
   const financeData=[
     {desc:'Propina Mensal',type:'Pagamento',value:'35.000 Kz'},
     {desc:'Multa Atraso',type:'Multa',value:'5.000 Kz'},
@@ -230,51 +244,10 @@ function initDemoData(){
   financeTable.innerHTML='<tr><th>Descrição</th><th>Tipo</th><th>Valor</th></tr>';
   financeData.forEach(f=>{financeTable.innerHTML+=`<tr><td>${f.desc}</td><td>${f.type}</td><td>${f.value}</td></tr>`;});
 
+  // Biblioteca
   const libraryData=[
     {title:'Introdução à Programação',author:'Carlos Monteiro',status:'Disponível'},
     {title:'Engenharia de Software',author:'Inocêncio Lopes',status:'Emprestado'},
     {title:'Finanças Públicas',author:'Lídia Mavungo',status:'Disponível'}
   ];
-  const libraryTable=document.getElementById('libraryTable');
-  libraryTable.innerHTML='<tr><th>Título</th><th>Autor</th><th>Status</th></tr>';
-  libraryData.forEach(l=>{libraryTable.innerHTML+=`<tr><td>${l.title}</td><td>${l.author}</td><td>${l.status}</td></tr>`;});
-
-  const lmsData=[
-    {course:'Engenharia de Software',prof:'Dr. Inocêncio Graça Lopes',status:'Ativo'},
-    {course:'Economia Africana',prof:'Dra. Lídia Mavungo',status:'Ativo'}
-  ];
-  const lmsTable=document.getElementById('lmsTable');
-  lmsTable.innerHTML='<tr><th>Curso</th><th>Professor</th><th>Status</th></tr>';
-  lmsData.forEach(c=>{lmsTable.innerHTML+=`<tr><td>${c.course}</td><td>${c.prof}</td><td>${c.status}</td></tr>`;});
-
-  const events=['Conferência de Inovação Digital','Semana Científica','Defesa de Monografias','Feira de Inovação Estudantil'];
-  const eventsList=document.getElementById('eventsList');
-  events.forEach(e=>{const li=document.createElement('li');li.textContent=e;eventsList.appendChild(li);});
-
-  const blogPosts=['Novidades e notícias do instituto','Projetos de pesquisa e inovação','Parcerias nacionais e internacionais'];
-  const blogList=document.getElementById('blogList');
-  blogPosts.forEach(b=>{const li=document.createElement('li');li.textContent=b;blogList.appendChild(li);});
-
-  // Dashboard Chart 3D style
-  const ctx=document.getElementById('dashboardChart').getContext('2d');
-  new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels:['Estudantes','Docentes','Funcionários','Bolsistas'],
-      datasets:[{
-        label:'Contagem',
-        data:[2500,92,203,312],
-        backgroundColor:['#0b3d91','#1c75bc','#4a90e2','#f5a623'],
-        borderWidth:1
-      }]
-    },
-    options:{
-      responsive:true,
-      plugins:{legend:{display:false}},
-      scales:{y:{beginAtZero:true}}
-    }
-  });
-}
-</script>
-</body>
-</html>
+  const libraryTable=document.getElementById('

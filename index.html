@@ -4,258 +4,263 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Instituto Superior Privado Rei Luhuna</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
-body,html{height:100%;width:100%;overflow-x:hidden;background:#f5f5f5;}
-a{text-decoration:none;color:inherit;}
-h1,h2,h3,h4,h5,h6{margin-bottom:0.5rem;color:#fff;}
-.sidebar{position:fixed;top:0;left:0;height:100%;width:280px;background:linear-gradient(180deg,#0a0a23,#1a1a45);color:#fff;padding-top:2rem;overflow-y:auto;transition:0.3s;}
-.sidebar ul{list-style:none;}
-.sidebar ul li{padding:15px 25px;cursor:pointer;transition:0.2s;font-weight:500;}
-.sidebar ul li:hover{background:rgba(255,255,255,0.1);border-radius:10px;}
-.sidebar ul li.active{background:rgba(255,255,255,0.2);}
-.content{margin-left:280px;padding:2rem;min-height:100vh;transition:0.3s;}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;}
-.header h1{color:#0a0a23;}
-.header .user{color:#555;font-weight:bold;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:2rem;}
-.card{background:#fff;padding:1.5rem;border-radius:14px;box-shadow:0 12px 25px rgba(0,0,0,0.1);transition:0.3s;}
-.card:hover{transform:translateY(-5px);box-shadow:0 15px 25px rgba(0,0,0,0.15);}
-.card h3{margin-bottom:1rem;color:#0a0a23;}
-table{width:100%;border-collapse:collapse;margin-top:1rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #eee;}
-th{background:#0a0a23;color:#fff;}
-tr:hover{background:#f0f0f0;}
-input, select, textarea{width:100%;padding:10px;margin:8px 0 16px 0;border-radius:8px;border:1px solid #ccc;}
-button{padding:12px 20px;border:none;border-radius:8px;background:#0a0a23;color:#fff;cursor:pointer;transition:0.3s;}
-button:hover{background:#1a1a45;}
-.section-bg{background-size:cover;background-position:center;border-radius:12px;padding:2rem;margin-bottom:2rem;color:#fff;position:relative;min-height:250px;}
-.overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);border-radius:12px;}
-.section-content{position:relative;z-index:2;}
-footer{text-align:center;padding:1.5rem;background:#0a0a23;color:#fff;margin-top:2rem;border-radius:8px;}
-.profile-img{width:60px;height:60px;border-radius:50%;object-fit:cover;margin-right:15px;vertical-align:middle;}
-.flex-row{display:flex;align-items:center;margin-bottom:1rem;}
-canvas{background:#fff;border-radius:12px;padding:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1);margin-bottom:2rem;}
+/* Reset e fontes */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
+body { background-color: #f5f7fa; color: #333; }
+a { text-decoration:none; color: inherit; }
+
+/* Layout */
+.container { display:flex; min-height:100vh; }
+.sidebar { width:250px; background:#1a1a2e; color:#fff; flex-shrink:0; display:flex; flex-direction:column; }
+.sidebar h2 { text-align:center; padding:20px 0; font-weight:700; color:#fcbf49; }
+.sidebar nav a { padding:15px 20px; display:block; transition:0.2s; border-left:5px solid transparent; }
+.sidebar nav a:hover { background:#162447; border-left:5px solid #fcbf49; }
+.sidebar nav a.active { background:#0f3460; border-left:5px solid #fcbf49; }
+
+.main { flex:1; padding:20px; overflow-y:auto; }
+header { display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid #ccc; }
+header h1 { font-size:1.8rem; color:#0f3460; }
+header .user { display:flex; align-items:center; gap:10px; }
+header .user img { width:40px; height:40px; border-radius:50%; }
+
+/* Cards e seções */
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px; margin-top:20px; }
+.card { background:#fff; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:20px; transition:0.3s; cursor:pointer; }
+.card:hover { transform:translateY(-5px); box-shadow:0 6px 20px rgba(0,0,0,0.15); }
+.card h3 { margin-bottom:10px; color:#1a1a2e; }
+.card p { font-size:0.9rem; color:#555; }
+
+/* Modais */
+.modal-bg { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:100; }
+.modal { background:#fff; border-radius:10px; max-width:700px; width:90%; max-height:90%; overflow-y:auto; padding:20px; position:relative; }
+.modal h3 { margin-bottom:15px; color:#0f3460; }
+.modal p { margin-bottom:10px; }
+.modal .close { position:absolute; top:10px; right:15px; cursor:pointer; font-weight:700; font-size:1.2rem; }
+
+/* Forms */
+form { display:flex; flex-direction:column; gap:15px; }
+input, select, textarea { padding:10px; border-radius:6px; border:1px solid #ccc; width:100%; }
+button { padding:10px; border:none; border-radius:6px; background:#fcbf49; color:#1a1a2e; font-weight:700; cursor:pointer; transition:0.2s; }
+button:hover { background:#f77f00; color:#fff; }
+
+/* Table */
+table { width:100%; border-collapse:collapse; margin-top:15px; }
+th, td { padding:10px; border:1px solid #ccc; text-align:left; }
+th { background:#1a1a2e; color:#fff; }
+td img { width:40px; height:40px; border-radius:50%; }
+
+/* Footer */
+footer { text-align:center; padding:20px 0; margin-top:40px; color:#555; border-top:1px solid #ccc; }
+
+/* Background images */
+.section { background-size:cover; background-position:center; border-radius:10px; padding:20px; margin-bottom:20px; }
+
+/* Responsive */
+@media(max-width:768px){
+    .container{flex-direction:column;}
+    .sidebar{width:100%; flex-direction:row; overflow-x:auto;}
+    .sidebar nav{display:flex; flex-direction:row;}
+    .sidebar nav a{border-left:none; border-bottom:5px solid transparent;}
+    .sidebar nav a:hover{border-bottom:5px solid #fcbf49;}
+}
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-<ul>
-<li class="active" onclick="showSection('dashboard')">Dashboard</li>
-<li onclick="showSection('estudantes')">Estudantes</li>
-<li onclick="showSection('docentes')">Docentes</li>
-<li onclick="showSection('admissao')">Admissão</li>
-<li onclick="showSection('matriculas')">Matrículas</li>
-<li onclick="showSection('financeiro')">Financeiro</li>
-<li onclick="showSection('rh')">Recursos Humanos</li>
-<li onclick="showSection('biblioteca')">Biblioteca</li>
-<li onclick="showSection('cursos')">Cursos / LMS</li>
-<li onclick="showSection('blog')">Blog</li>
-<li onclick="showSection('eventos')">Eventos</li>
-<li onclick="showSection('administracao')">Administração</li>
-<li onclick="showSection('sobre')">Sobre Nós</li>
-</ul>
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Rei Luhuna</h2>
+        <nav>
+            <a href="#" class="active" onclick="showSection('dashboard', event)">Dashboard</a>
+            <a href="#" onclick="showSection('admissao', event)">Admissão</a>
+            <a href="#" onclick="showSection('matriculas', event)">Matrículas</a>
+            <a href="#" onclick="showSection('estudantes', event)">Estudantes</a>
+            <a href="#" onclick="showSection('docentes', event)">Docentes</a>
+            <a href="#" onclick="showSection('financeiro', event)">Financeiro</a>
+            <a href="#" onclick="showSection('rh', event)">Recursos Humanos</a>
+            <a href="#" onclick="showSection('biblioteca', event)">Biblioteca</a>
+            <a href="#" onclick="showSection('lms', event)">Cursos / LMS</a>
+            <a href="#" onclick="showSection('blog', event)">Blog</a>
+            <a href="#" onclick="showSection('sobre', event)">Sobre Nós</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <header>
+            <h1>Instituto Superior Privado Rei Luhuna</h1>
+            <div class="user">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User">
+                <span>Edgar Songanga</span>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="section" style="display:block; background-image:url('https://images.unsplash.com/photo-1596495577886-d920f3b61caa?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Dashboard</h2>
+            <canvas id="studentsChart" style="background:white; border-radius:10px; padding:10px;"></canvas>
+            <canvas id="financeChart" style="background:white; border-radius:10px; padding:10px; margin-top:20px;"></canvas>
+        </div>
+
+        <!-- Admissão -->
+        <div id="admissao" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1581091215361-40e0641e74b3?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Admissão</h2>
+            <form>
+                <input type="text" placeholder="Nome completo" required>
+                <input type="email" placeholder="Email" required>
+                <select>
+                    <option selected>Curso pretendido</option>
+                    <option>Engenharia Informática</option>
+                    <option>Gestão</option>
+                    <option>Medicina</option>
+                    <option>Direito</option>
+                </select>
+                <input type="number" placeholder="Ano de conclusão do ensino médio" required>
+                <button>Enviar candidatura</button>
+            </form>
+        </div>
+
+        <!-- Matrículas -->
+        <div id="matriculas" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1554774853-6f3f66d13236?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Matrículas</h2>
+            <table>
+                <tr><th>Estudante</th><th>Curso</th><th>Status</th></tr>
+                <tr><td>Inocêncio Graça Lopes</td><td>Engenharia Informática</td><td>Confirmado</td></tr>
+                <tr><td>Edson Casemiro</td><td>Gestão</td><td>Pendente</td></tr>
+                <tr><td>Ana Ferreira</td><td>Medicina</td><td>Confirmado</td></tr>
+            </table>
+        </div>
+
+        <!-- Estudantes -->
+        <div id="estudantes" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1596495577886-d920f3b61caa?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Estudantes</h2>
+            <div class="cards">
+                <div class="card" onclick="showModal('perfilEst1')">
+                    <h3>Inocêncio Graça Lopes</h3>
+                    <p>Engenharia Informática</p>
+                </div>
+                <div class="card" onclick="showModal('perfilEst2')">
+                    <h3>Edson Casemiro</h3>
+                    <p>Gestão</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Docentes -->
+        <div id="docentes" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1554774853-6f3f66d13236?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Docentes</h2>
+            <div class="cards">
+                <div class="card" onclick="showModal('perfilDoc1')">
+                    <h3>José Almeida</h3>
+                    <p>Engenharia Informática</p>
+                </div>
+                <div class="card" onclick="showModal('perfilDoc2')">
+                    <h3>Maria Silva</h3>
+                    <p>Gestão</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financeiro -->
+        <div id="financeiro" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1596495577886-d920f3b61caa?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Financeiro</h2>
+            <table>
+                <tr><th>Estudante</th><th>Curso</th><th>Propina (AKZ)</th><th>Status</th><th>Bolsas</th></tr>
+                <tr><td>Inocêncio Graça Lopes</td><td>Engenharia Informática</td><td>200.000</td><td>Pago</td><td>Não</td></tr>
+                <tr><td>Edson Casemiro</td><td>Gestão</td><td>150.000</td><td>Pendente</td><td>Sim</td></tr>
+            </table>
+        </div>
+
+        <!-- Recursos Humanos -->
+        <div id="rh" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1554774853-6f3f66d13236?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Recursos Humanos</h2>
+            <table>
+                <tr><th>Funcionário</th><th>Cargo</th><th>Férias</th><th>Faltas</th></tr>
+                <tr><td>Joana Matias</td><td>Secretária</td><td>14 dias</td><td>0</td></tr>
+                <tr><td>Carlos Mendes</td><td>Coordenador Acadêmico</td><td>10 dias</td><td>2</td></tr>
+            </table>
+        </div>
+
+        <!-- Biblioteca -->
+        <div id="biblioteca" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1581091215361-40e0641e74b3?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Biblioteca</h2>
+            <table>
+                <tr><th>Livro</th><th>Autor</th><th>Tipo</th><th>Status</th></tr>
+                <tr><td>Fundamentos de Programação</td><td>Luís Pereira</td><td>Físico</td><td>Disponível</td></tr>
+                <tr><td>Gestão Empresarial</td><td>Maria Silva</td><td>Digital</td><td>Emprestado</td></tr>
+            </table>
+        </div>
+
+        <!-- LMS -->
+        <div id="lms" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1596495577886-d920f3b61caa?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Cursos / LMS</h2>
+            <div class="cards">
+                <div class="card"><h3>Engenharia Informática</h3><p>Conteúdo simulado e quizzes.</p></div>
+                <div class="card"><h3>Gestão</h3><p>Conteúdo simulado e quizzes.</p></div>
+            </div>
+        </div>
+
+        <!-- Blog -->
+        <div id="blog" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1554774853-6f3f66d13236?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Blog</h2>
+            <div class="cards">
+                <div class="card"><h3>Semana Acadêmica 2026</h3><p>Workshops e eventos do semestre.</p></div>
+                <div class="card"><h3>Nova Biblioteca Digital</h3><p>Lançamento da biblioteca digital.</p></div>
+            </div>
+        </div>
+
+        <!-- Sobre Nós -->
+        <div id="sobre" class="section" style="display:none; background-image:url('https://images.unsplash.com/photo-1581091215361-40e0641e74b3?auto=format&fit=crop&w=1500&q=80');">
+            <h2 style="color:white; text-shadow:1px 1px 2px #000;">Sobre Nós</h2>
+            <p><strong>Missão:</strong> Ensino superior de qualidade com base na realidade Angolana.</p>
+            <p><strong>Visão:</strong> Ser referência nacional em educação e inovação.</p>
+            <p><strong>Valores:</strong> Ética, Excelência, Inclusão e Inovação.</p>
+            <p><strong>Parceiro estratégico:</strong> Magestade Pura Digital</p>
+        </div>
+
+    </div>
 </div>
 
-<div class="content">
+<footer>
+    &copy; 2026 Instituto Superior Privado Rei Luhuna | Powered by Magestade Pura Digital
+</footer>
 
-<div class="header">
-<h1>Instituto Superior Privado Rei Luhuna</h1>
-<div class="user">Bem-vindo, Edgar1-Songanga</div>
-</div>
-
-<!-- Dashboard -->
-<div id="dashboard" class="section">
-<div class="cards">
-<div class="card"><h3>Total Estudantes</h3><p>2.500</p></div>
-<div class="card"><h3>Total Funcionários</h3><p>200</p></div>
-<div class="card"><h3>Matrículas Hoje</h3><p>25</p></div>
-<div class="card"><h3>Propinas Recebidas</h3><p>AKZ 3.450.000</p></div>
-</div>
-
-<canvas id="dashboardChart" height="200"></canvas>
-
-<div class="section-bg" style="background-image:url('https://images.unsplash.com/photo-1612831455545-26c0e3df9f0f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200');">
-<div class="overlay"></div>
-<div class="section-content"><h2>Visão Geral do Instituto</h2><p>Demo interativa ultra-premium com perfis 3D, gráficos animados e navegação completa.</p></div>
+<!-- Modais -->
+<div id="perfilEst1" class="modal-bg">
+<div class="modal">
+<span class="close" onclick="closeModal('perfilEst1')">&times;</span>
+<h3>Inocêncio Graça Lopes</h3>
+<p><strong>Curso:</strong> Engenharia Informática</p>
+<p><strong>Email:</strong> inocencio.lopes@rei-luhuna.ac.ao</p>
+<p><strong>Status Matrícula:</strong> Confirmado</p>
+<p><strong>Notas:</strong> Algoritmos:18 | BD:17 | Redes:16</p>
 </div>
 </div>
-
-<!-- Estudantes -->
-<div id="estudantes" class="section" style="display:none;">
-<h2>Lista de Estudantes</h2>
-<table>
-<tr><th>Foto</th><th>Nome</th><th>Curso</th><th>Email</th></tr>
-<tr onclick="alert('Perfil de Ana Miguel detalhado')"><td><img class="profile-img" src="https://randomuser.me/api/portraits/women/65.jpg"></td><td>Ana Miguel</td><td>Engenharia</td><td>ana.m@isprl.edu.ao</td></tr>
-<tr onclick="alert('Perfil de João Tomás detalhado')"><td><img class="profile-img" src="https://randomuser.me/api/portraits/men/43.jpg"></td><td>João Tomás</td><td>Administração</td><td>joao.t@isprl.edu.ao</td></tr>
-<tr onclick="alert('Perfil de Inocêncio Graça Lopes detalhado')"><td><img class="profile-img" src="https://randomuser.me/api/portraits/men/54.jpg"></td><td>Inocêncio Graça Lopes</td><td>Engenharia</td><td>inocencio.l@isprl.edu.ao</td></tr>
-</table>
-</div>
-
-<!-- Docentes -->
-<div id="docentes" class="section" style="display:none;">
-<h2>Lista de Docentes</h2>
-<table>
-<tr><th>Foto</th><th>Nome</th><th>Disciplina</th><th>Email</th></tr>
-<tr onclick="alert('Perfil de Edson Casemiro detalhado')"><td><img class="profile-img" src="https://randomuser.me/api/portraits/men/35.jpg"></td><td>Edson Casemiro</td><td>Matemática</td><td>edson.c@isprl.edu.ao</td></tr>
-<tr><td><img class="profile-img" src="https://randomuser.me/api/portraits/men/54.jpg"></td><td>Inocêncio Graça Lopes</td><td>Física</td><td>inocencio.l@isprl.edu.ao</td></tr>
-</table>
-</div>
-
-<!-- Admissão -->
-<div id="admissao" class="section" style="display:none;">
-<h2>Formulário de Admissão</h2>
-<form>
-<label>Nome Completo:</label>
-<input type="text" placeholder="Digite o nome completo">
-<label>Email:</label>
-<input type="email" placeholder="Digite o email">
-<label>Curso:</label>
-<select>
-<option>Engenharia</option>
-<option>Administração</option>
-<option>Direito</option>
-</select>
-<button type="button" onclick="alert('Admissão simulada com sucesso!')">Cadastrar</button>
-</form>
-</div>
-
-<!-- Matrículas -->
-<div id="matriculas" class="section" style="display:none;">
-<h2>Matrículas</h2>
-<form>
-<label>Selecionar Estudante:</label>
-<select>
-<option>Ana Miguel</option>
-<option>João Tomás</option>
-<option>Inocêncio Graça Lopes</option>
-</select>
-<label>Disciplinas:</label>
-<select multiple>
-<option>Matemática</option>
-<option>Física</option>
-<option>Programação</option>
-</select>
-<button type="button" onclick="alert('Matrícula simulada com sucesso!')">Registrar Matrícula</button>
-</form>
-</div>
-
-<!-- Financeiro -->
-<div id="financeiro" class="section" style="display:none;">
-<h2>Financeiro</h2>
-<table>
-<tr><th>Estudante</th><th>Propina</th><th>Multa</th><th>Bolsa</th></tr>
-<tr><td>Ana Miguel</td><td>50.000 AKZ</td><td>0 AKZ</td><td>10%</td></tr>
-<tr><td>João Tomás</td><td>50.000 AKZ</td><td>5.000 AKZ</td><td>0%</td></tr>
-<tr><td>Inocêncio Graça Lopes</td><td>50.000 AKZ</td><td>0 AKZ</td><td>5%</td></tr>
-</table>
-</div>
-
-<!-- Recursos Humanos -->
-<div id="rh" class="section" style="display:none;">
-<h2>Recursos Humanos</h2>
-<table>
-<tr><th>Nome</th><th>Cargo</th><th>Email</th></tr>
-<tr><td>Edgar Songanga</td><td>Diretor Executivo</td><td>edgar@magestadapura.ao</td></tr>
-<tr><td>Inocêncio Lopes</td><td>Administrador</td><td>inocencio.l@isprl.edu.ao</td></tr>
-</table>
-</div>
-
-<!-- Biblioteca -->
-<div id="biblioteca" class="section" style="display:none;">
-<h2>Biblioteca</h2>
-<table>
-<tr><th>Título</th><th>Tipo</th><th>Status</th></tr>
-<tr><td>Engenharia Moderna</td><td>Física</td><td>Disponível</td></tr>
-<tr><td>Direito Angolano</td><td>Digital</td><td>Emprestado</td></tr>
-</table>
-</div>
-
-<!-- Cursos/LMS -->
-<div id="cursos" class="section" style="display:none;">
-<h2>Cursos / LMS</h2>
-<ul>
-<li>Engenharia → <button onclick="alert('Detalhes do curso Engenharia')">Ver Detalhes</button></li>
-<li>Administração → <button onclick="alert('Detalhes do curso Administração')">Ver Detalhes</button></li>
-<li>Direito → <button onclick="alert('Detalhes do curso Direito')">Ver Detalhes</button></li>
-</ul>
-</div>
-
-<!-- Blog -->
-<div id="blog" class="section" style="display:none;">
-<h2>Blog</h2>
-<ul>
-<li>Notícia 1 → <button onclick="alert('Abrindo artigo 1')">Ler</button></li>
-<li>Notícia 2 → <button onclick="alert('Abrindo artigo 2')">Ler</button></li>
-</ul>
-</div>
-
-<!-- Eventos -->
-<div id="eventos" class="section" style="display:none;">
-<h2>Eventos</h2>
-<ul>
-<li>Seminário de Engenharia → <button onclick="alert('Detalhes do evento')">Ver</button></li>
-</ul>
-</div>
-
-<!-- Administração -->
-<div id="administracao" class="section" style="display:none;">
-<h2>Administração</h2>
-<ul>
-<li>Presidente → Inocêncio Graça Lopes <button onclick="alert('Perfil do Presidente')">Ver Perfil</button></li>
-<li>Secretário → Edson Casemiro <button onclick="alert('Perfil do Secretário')">Ver Perfil</button></li>
-</ul>
-</div>
-
-<!-- Sobre Nós -->
-<div id="sobre" class="section" style="display:none;">
-<div class="section-bg" style="background-image:url('https://images.unsplash.com/photo-1605902711622-cfb43c44347e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200');">
-<div class="overlay"></div>
-<div class="section-content">
-<h2>Sobre Nós</h2>
-<p>Missão: Oferecer educação superior de excelência no Cunene.</p>
-<p>Visão: Ser referência nacional em ensino e pesquisa.</p>
-<p>Parceiros: Magestade Pura Digital (estratégico)</p>
-</div>
+<div id="perfilEst2" class="modal-bg">
+<div class="modal">
+<span class="close" onclick="closeModal('perfilEst2')">&times;</span>
+<h3>Edson Casemiro</h3>
+<p><strong>Curso:</strong> Gestão</p>
+<p><strong>Email:</strong> edson.casemiro@rei-luhuna.ac.ao</p>
+<p><strong>Status Matrícula:</strong> Pendente</p>
+<p><strong>Notas:</strong> Economia:16 | Contabilidade:15 | Marketing:17</p>
 </div>
 </div>
 
+<div id="perfilDoc1" class="modal-bg">
+<div class="modal">
+<span class="close" onclick="closeModal('perfilDoc1')">&times;</span>
+<h3>José Almeida</h3>
+<p><strong>Disciplina:</strong> Engenharia Informática</p>
+<p><strong>Email:</strong> jose.almeida@rei-luhuna.ac.ao</p>
+<p><strong>Avaliação:</strong> 9.0/10</p>
 </div>
-
-<footer>Powered by Magestade Pura Digital</footer>
-
-<script>
-function showSection(id){
-document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-document.getElementById(id).style.display='block';
-document.querySelectorAll('.sidebar ul li').forEach(li=>li.classList.remove('active'));
-event.currentTarget.classList.add('active');
-}
-
-// Gráfico Dashboard
-const ctx = document.getElementById('dashboardChart').getContext('2d');
-const dashboardChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Engenharia', 'Administração', 'Direito', 'Matemática', 'Física'],
-        datasets: [{
-            label: 'Estudantes por Curso',
-            data: [800, 600, 400, 350, 350],
-            backgroundColor: 'rgba(10,10,35,0.7)',
-            borderColor: 'rgba(10,10,35,1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive:true,
-        plugins:{legend:{display:true}},
-        scales:{y:{beginAtZero:true}}
-    }
-});
-</script>
-
-</body>
-  </html>
+</div>
+<div id="perfilDoc2" class="modal-bg">
+<div class="modal">
+<span class="close" onclick="closeModal('perfilDoc2

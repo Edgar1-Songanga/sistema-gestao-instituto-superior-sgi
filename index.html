@@ -1,256 +1,283 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-AO">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instituto Superior Privado Rei Luhuna - Demo Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<title>Instituto Superior Privado Rei Luhuna</title>
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:#f2f4f8;}
+/* Reset e fontes */
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body,html{height:100%;background:linear-gradient(135deg,#fefefe,#f0f0f5);}
 a{text-decoration:none;color:inherit;}
-h1,h2,h3,h4,h5,h6{font-family:'Merriweather',serif;color:#0b3d91;}
+ul{list-style:none;}
 
 /* Sidebar */
-#sidebar{position:fixed;top:0;left:0;height:100%;width:300px;background:linear-gradient(180deg,#0b3d91,#1a54b0);color:white;padding-top:30px;overflow-y:auto;display:none;border-right:2px solid #092b6b;z-index:100;}
-#sidebar h2{text-align:center;margin-bottom:30px;font-size:28px;font-weight:700;}
-#sidebar a{display:flex;align-items:center;padding:14px 22px;font-weight:600;transition:0.3s;border-radius:10px;margin:5px 10px;}
-#sidebar a:hover{background:rgba(255,255,255,0.15);}
-#sidebar i{margin-right:12px;font-size:18px;}
+.sidebar{position:fixed;left:0;top:0;width:280px;height:100%;background:linear-gradient(180deg,#2C2C54,#1B1B2F);color:#fff;padding-top:20px;transition:0.3s;overflow-y:auto;}
+.sidebar h2{text-align:center;margin-bottom:30px;font-size:1.5rem;color:#FFD700;font-weight:bold;}
+.sidebar ul li{padding:15px 25px;cursor:pointer;transition:0.2s;border-radius:5px;margin:3px 10px;}
+.sidebar ul li:hover{background:#3d3d6d;}
+.sidebar ul li.active{background:#FFD700;color:#1B1B2F;font-weight:bold;}
+.sidebar ul li ul{margin-left:15px;display:none;}
+.sidebar ul li.open>ul{display:block;}
 
 /* Content */
-#content-wrapper{margin-left:300px;padding:30px;display:none;transition:0.4s;}
-
-/* Login */
-#login-section{display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#0b3d91,#1a54b0);}
-#login-box{background:white;padding:50px;border-radius:20px;box-shadow:0 30px 60px rgba(0,0,0,0.25);width:420px;text-align:center;}
-#login-box h1{margin-bottom:40px;font-size:32px;}
-.form-group{margin-bottom:25px;text-align:left;}
-.form-group label{display:block;margin-bottom:5px;font-weight:600;color:#0b3d91;}
-.form-group input{width:100%;padding:14px;border-radius:14px;border:1px solid #ced4da;}
-.btn-login{background:#0b3d91;color:white;padding:14px 0;width:100%;border:none;border-radius:14px;font-size:17px;cursor:pointer;transition:0.3s;}
-.btn-login:hover{background:#092b6b;}
-.login-message{margin-top:15px;font-weight:500;text-align:center;}
+.content{margin-left:280px;padding:20px;transition:0.3s;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1);border-radius:10px;margin-bottom:20px;}
+.topbar h1{font-size:1.6rem;color:#2C2C54;}
+.topbar .user{display:flex;align-items:center;gap:10px;font-weight:bold;color:#2C2C54;}
+.topbar .user img{width:35px;height:35px;border-radius:50%;}
 
 /* Cards */
-.cards{display:flex;flex-wrap:wrap;gap:25px;margin-bottom:35px;}
-.card{flex:1 1 260px;background:white;padding:25px;border-radius:25px;box-shadow:0 18px 45px rgba(0,0,0,0.18);cursor:pointer;transition:0.5s;text-align:center;transform:translateZ(0);position:relative;overflow:hidden;}
-.card:hover{transform:translateY(-12px) scale(1.06);box-shadow:0 25px 60px rgba(0,0,0,0.28);}
-.card img{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:18px;}
-.card .tooltip{position:absolute;bottom:0;left:0;width:100%;background:rgba(11,61,145,0.9);color:white;padding:12px;border-radius:0 0 25px 25px;opacity:0;transition:0.3s;font-size:14px;}
-.card:hover .tooltip{opacity:1;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px;}
+.card{background:linear-gradient(145deg,#fff,#e6e6fa);padding:20px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);transition:0.3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.card h3{margin-bottom:10px;color:#2C2C54;}
+.card p{color:#555;}
 
-/* Tables */
-.detail-table{width:100%;border-collapse:collapse;margin-bottom:30px;}
-.detail-table th, .detail-table td{padding:15px;text-align:left;border-bottom:1px solid #ddd;}
-.detail-table th{background:#f1f3f5;color:#0b3d91;font-weight:600;}
+/* Table */
+table{width:100%;border-collapse:collapse;margin-top:20px;border-radius:10px;overflow:hidden;}
+table th,table td{padding:12px;text-align:left;border-bottom:1px solid #ddd;}
+table th{background:#2C2C54;color:#fff;}
+table tr:hover{background:#f1f1f1;}
 
-/* Sections */
-section{background:white;margin-bottom:35px;padding:40px;border-radius:25px;box-shadow:0 18px 45px rgba(0,0,0,0.18);}
-section h2{margin-bottom:25px;}
+/* Buttons */
+button{background:#2C2C54;color:#fff;padding:10px 15px;border:none;border-radius:5px;cursor:pointer;transition:0.3s;font-weight:bold;}
+button:hover{background:#FFD700;color:#1B1B2F;}
 
 /* Footer */
-footer{text-align:center;padding:30px;background:#0b3d91;color:white;border-top:5px solid #092b6b;font-size:15px;}
-footer a{color:white;}
+footer{text-align:center;padding:20px;margin-top:40px;color:#555;border-top:1px solid #ddd;}
 
-/* Scrollbar */
-#sidebar::-webkit-scrollbar{width:8px;}
-#sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:4px;}
+/* Login modal */
+#loginModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:1000;}
+#loginModal .modal-content{background:#fff;padding:30px;border-radius:15px;width:90%;max-width:400px;box-shadow:0 5px 20px rgba(0,0,0,0.2);text-align:center;}
+#loginModal input{width:100%;padding:10px;margin:10px 0;border-radius:5px;border:1px solid #ccc;}
+#loginModal button{width:100%;}
+
+/* Responsive */
+@media(max-width:768px){.sidebar{width:220px;}.content{margin-left:220px;}}
+@media(max-width:480px){.sidebar{position:absolute;left:-220px;}.sidebar.show{left:0;}.content{margin-left:0;}.topbar .menu-toggle{display:block;cursor:pointer;}}
 </style>
 </head>
 <body>
 
-<!-- Login -->
-<div id="login-section">
-  <div id="login-box">
-    <h1>Instituto Superior Privado Rei Luhuna</h1>
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="email">Email institucional</label>
-        <input type="email" id="email" placeholder="nome@isprl.edu.ao" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Senha</label>
-        <input type="password" id="password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn-login">Entrar</button>
-    </form>
-    <div id="loginMessage" class="login-message"></div>
+<!-- Login Modal -->
+<div id="loginModal">
+  <div class="modal-content">
+    <h2>Login - ISPRL</h2>
+    <input type="email" id="email" placeholder="Email institucional">
+    <input type="password" id="password" placeholder="Senha">
+    <p id="msg" style="color:red;"></p>
+    <button onclick="login()">Entrar</button>
   </div>
 </div>
 
 <!-- Sidebar -->
-<div id="sidebar">
+<div class="sidebar">
   <h2>ISPRL</h2>
-  <a href="#dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-  <a href="#students"><i class="fas fa-user-graduate"></i>Estudantes</a>
-  <a href="#faculty"><i class="fas fa-chalkboard-teacher"></i>Docentes</a>
-  <a href="#hr"><i class="fas fa-users-cog"></i>RH</a>
-  <a href="#finance"><i class="fas fa-money-bill-wave"></i>Financeiro</a>
-  <a href="#library"><i class="fas fa-book"></i>Biblioteca</a>
-  <a href="#lms"><i class="fas fa-laptop-code"></i>LMS</a>
-  <a href="#events"><i class="fas fa-calendar-alt"></i>Eventos</a>
-  <a href="#blog"><i class="fas fa-blog"></i>Blog</a>
-  <a href="#about"><i class="fas fa-info-circle"></i>Sobre Nós</a>
+  <ul>
+    <li class="active" onclick="showPage('dashboard')">Dashboard</li>
+    <li onclick="showPage('students')">Estudantes</li>
+    <li onclick="showPage('faculty')">Docentes</li>
+    <li onclick="toggleSub(this)">Admissão</li>
+    <li onclick="toggleSub(this)">Matrículas</li>
+    <li onclick="toggleSub(this)">Financeiro
+      <ul>
+        <li onclick="showPage('financeTuition')">Propinas</li>
+        <li onclick="showPage('financeFines')">Multas</li>
+        <li onclick="showPage('financeScholarships')">Bolsas</li>
+      </ul>
+    </li>
+    <li onclick="toggleSub(this)">Recursos Humanos
+      <ul>
+        <li onclick="showPage('hrContracts')">Contratos</li>
+        <li onclick="showPage('hrPayroll')">Folha de Pagamento</li>
+      </ul>
+    </li>
+    <li onclick="toggleSub(this)">Biblioteca
+      <ul>
+        <li onclick="showPage('libraryPhysical')">Física</li>
+        <li onclick="showPage('libraryDigital')">Digital</li>
+      </ul>
+    </li>
+    <li onclick="showPage('lms')">Cursos / LMS</li>
+    <li onclick="showPage('blog')">Blog</li>
+    <li onclick="showPage('events')">Eventos</li>
+    <li onclick="showPage('about')">Sobre Nós</li>
+  </ul>
 </div>
 
-<!-- Conteúdo -->
-<div id="content-wrapper">
-  <section id="dashboard">
-    <h2>Dashboard</h2>
-    <div class="cards">
-      <div class="card"><h3>Estudantes</h3><p>2.500</p></div>
-      <div class="card"><h3>Docentes</h3><p>200</p></div>
-      <div class="card"><h3>Funcionários</h3><p>203</p></div>
-      <div class="card"><h3>Receita Mensal</h3><p>82.450.000 Kz</p></div>
-      <div class="card"><h3>Bolsistas</h3><p>312</p></div>
+<!-- Content -->
+<div class="content">
+  <div class="topbar">
+    <h1>Dashboard</h1>
+    <div class="user">
+      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Avatar">
+      Edgar Songanga
     </div>
-    <canvas id="dashboardChart" height="200"></canvas>
-    <canvas id="financeChart" height="200"></canvas>
-  </section>
+  </div>
 
-  <section id="students">
-    <h2>Perfis de Estudantes</h2>
-    <div class="cards" id="studentCards"></div>
-  </section>
+  <!-- Pages -->
+  <div id="dashboardPage">
+    <div class="cards">
+      <div class="card"><h3>Total Estudantes</h3><p>2,500</p></div>
+      <div class="card"><h3>Total Docentes</h3><p>200</p></div>
+      <div class="card"><h3>Propinas Recebidas</h3><p>₦12,000,000</p></div>
+      <div class="card"><h3>Eventos Ativos</h3><p>5</p></div>
+    </div>
+  </div>
 
-  <section id="faculty">
-    <h2>Corpo Docente</h2>
-    <div class="cards" id="facultyCards"></div>
-  </section>
+  <div id="studentsPage" style="display:none;">
+    <h2>Estudantes</h2>
+    <table>
+      <tr><th>Nome</th><th>Email</th><th>Curso</th><th>Turma</th></tr>
+      <tr><td>Joana Matias</td><td>joana@isprl.edu.ao</td><td>Direito</td><td>1º Ano</td></tr>
+      <tr><td>Pedro Filipe</td><td>pedro@isprl.edu.ao</td><td>Engenharia</td><td>2º Ano</td></tr>
+      <tr><td>Ana Clara</td><td>ana@isprl.edu.ao</td><td>Medicina</td><td>3º Ano</td></tr>
+    </table>
+  </div>
 
-  <section id="hr">
-    <h2>Recursos Humanos</h2>
-    <table class="detail-table" id="hrTable"></table>
-  </section>
+  <div id="facultyPage" style="display:none;">
+    <h2>Docentes</h2>
+    <table>
+      <tr><th>Nome</th><th>Email</th><th>Departamento</th></tr>
+      <tr><td>Inocêncio Graça Lopes</td><td>inocencio@isprl.edu.ao</td><td>Engenharia</td></tr>
+      <tr><td>Edson Casemiro</td><td>edson@isprl.edu.ao</td><td>Medicina</td></tr>
+      <tr><td>Maria Nascimento</td><td>maria@isprl.edu.ao</td><td>Direito</td></tr>
+    </table>
+  </div>
 
-  <section id="finance">
-    <h2>Financeiro</h2>
-    <table class="detail-table" id="financeTable"></table>
-  </section>
+  <div id="financeTuition" style="display:none;">
+    <h2>Propinas</h2>
+    <table>
+      <tr><th>Estudante</th><th>Curso</th><th>Valor</th></tr>
+      <tr><td>Joana Matias</td><td>Direito</td><td>₦120,000</td></tr>
+      <tr><td>Pedro Filipe</td><td>Engenharia</td><td>₦150,000</td></tr>
+    </table>
+  </div>
 
-  <section id="library">
-    <h2>Biblioteca</h2>
-    <table class="detail-table" id="libraryTable"></table>
-  </section>
+  <div id="financeFines" style="display:none;">
+    <h2>Multas</h2>
+    <table>
+      <tr><th>Estudante</th><th>Descrição</th><th>Valor</th></tr>
+      <tr><td>Ana Clara</td><td>Atraso Matrícula</td><td>₦5,000</td></tr>
+    </table>
+  </div>
 
-  <section id="lms">
-    <h2>LMS - Cursos Online</h2>
-    <table class="detail-table" id="lmsTable"></table>
-  </section>
+  <div id="financeScholarships" style="display:none;">
+    <h2>Bolsas</h2>
+    <table>
+      <tr><th>Estudante</th><th>Tipo</th><th>Valor</th></tr>
+      <tr><td>Pedro Filipe</td><td>Meritocrática</td><td>₦30,000</td></tr>
+    </table>
+  </div>
 
-  <section id="events">
-    <h2>Eventos Académicos</h2>
-    <ul id="eventsList"></ul>
-  </section>
+  <div id="hrContracts" style="display:none;">
+    <h2>Contratos</h2>
+    <table>
+      <tr><th>Nome</th><th>Email</th><th>Tipo</th></tr>
+      <tr><td>Filipe da Silva</td><td>filipe@isprl.edu.ao</td><td>Administrador</td></tr>
+    </table>
+  </div>
 
-  <section id="blog">
-    <h2>Blog Institucional</h2>
-    <ul id="blogList"></ul>
-  </section>
+  <div id="hrPayroll" style="display:none;">
+    <h2>Folha de Pagamento</h2>
+    <table>
+      <tr><th>Nome</th><th>Salário</th></tr>
+      <tr><td>Joana Ferreira</td><td>₦80,000</td></tr>
+    </table>
+  </div>
 
-  <section id="about">
+  <div id="libraryPhysical" style="display:none;">
+    <h2>Biblioteca Física</h2>
+    <table>
+      <tr><th>Título</th><th>Autor</th><th>Status</th></tr>
+      <tr><td>Introdução ao Direito</td><td>José Mateus</td><td>Disponível</td></tr>
+    </table>
+  </div>
+
+  <div id="libraryDigital" style="display:none;">
+    <h2>Biblioteca Digital</h2>
+    <table>
+      <tr><th>Título</th><th>Autor</th><th>Status</th></tr>
+      <tr><td>Engenharia Civil Avançada</td><td>Inocêncio Lopes</td><td>Emprestado</td></tr>
+    </table>
+  </div>
+
+  <div id="lms" style="display:none;">
+    <h2>Cursos / LMS</h2>
+    <ul>
+      <li>Direito Constitucional</li>
+      <li>Engenharia de Software</li>
+      <li>Medicina Interna</li>
+    </ul>
+  </div>
+
+  <div id="blog" style="display:none;">
+    <h2>Blog</h2>
+    <article>
+      <h3>Bem-vindo ao ISPRL</h3>
+      <p>Notícias e informações sobre o instituto.</p>
+    </article>
+  </div>
+
+  <div id="events" style="display:none;">
+    <h2>Eventos</h2>
+    <ul>
+      <li>Semana Acadêmica - Março</li>
+      <li>Workshop de Engenharia - Abril</li>
+    </ul>
+  </div>
+
+  <div id="about" style="display:none;">
     <h2>Sobre Nós</h2>
-    <p>O Instituto Superior Privado Rei Luhuna, localizado em Ondjiva, província do Cunene, é comprometido com a formação de profissionais altamente qualificados e inovação acadêmica.</p>
-    <h3>Missão</h3>
-    <p>Formar profissionais competentes, éticos e inovadores, promovendo conhecimento e desenvolvimento sustentável.</p>
-    <h3>Visão</h3>
-    <p>Ser referência em ensino superior na região e internacionalmente, com excelência acadêmica e inovação.</p>
-    <h3>Parcerias Estratégicas</h3>
-    <p><strong>Magestade Pura Digital</strong> – Parceiro estratégico em soluções digitais e integração tecnológica do instituto.</p>
-  </section>
-</div>
+    <p><strong>Missão:</strong> Formar profissionais competentes e cidadãos responsáveis em Angola.</p>
+    <p><strong>Visão:</strong> Ser referência nacional e internacional em educação superior de qualidade.</p>
+    <p><strong>Parceiro Estratégico:</strong> Magestade Pura Digital</p>
+  </div>
 
-<footer>
-Instituto Superior Privado Rei Luhuna - Ondjiva, Cunene, Angola <br>
-© 2026 Instituto Superior Privado Rei Luhuna - Powered by Magestade Pura Digital
-</footer>
+  <footer>Powered by Magestade Pura Digital</footer>
+</div>
 
 <script>
 // Login
-document.getElementById('loginForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const email=document.getElementById('email').value.trim();
-  const password=document.getElementById('password').value.trim();
-  const msg=document.getElementById('loginMessage');
-  if(!email.includes('@') || !email.endsWith('isprl.edu.ao')){msg.textContent='Insira um email institucional válido.';msg.style.color='red';return;}
-  if(password.length<6){msg.textContent='A senha deve ter pelo menos 6 caracteres.';msg.style.color='red';return;}
-  msg.textContent='Login efetuado com sucesso! Redirecionando...';msg.style.color='green';
-  setTimeout(()=>{
-    document.getElementById('login-section').style.display='none';
-    document.getElementById('sidebar').style.display='block';
-    document.getElementById('content-wrapper').style.display='block';
-    window.location.href='#dashboard';
-    initDemoData();
-  },1200);
-});
+function login(){
+  const email=document.getElementById('email').value;
+  const password=document.getElementById('password').value;
+  const msg=document.getElementById('msg');
+  if(!email.includes('@') || !email.endsWith('isprl.edu.ao')){
+    msg.textContent='Insira um email institucional válido.';
+    return;
+  }
+  if(password.length<6){
+    msg.textContent='A senha deve ter pelo menos 6 caracteres.';
+    return;
+  }
+  document.getElementById('loginModal').style.display='none';
+}
 
-// Função para popular dados demo
-function initDemoData(){
-  // Estudantes (20)
-  const students=[
-    {name:'Paulo Kandjimbo',course:'Engenharia Informática',year:'3º',img:'https://randomuser.me/api/portraits/men/32.jpg'},
-    {name:'Maria Helena Tchipipa',course:'Administração e Gestão',year:'2º',img:'https://randomuser.me/api/portraits/women/44.jpg'},
-    {name:'José António Neto',course:'Engenharia Civil',year:'4º',img:'https://randomuser.me/api/portraits/men/65.jpg'},
-    {name:'Fatima Luvumbo',course:'Economia',year:'1º',img:'https://randomuser.me/api/portraits/women/47.jpg'},
-    {name:'Daniel Cambinda',course:'Gestão Financeira',year:'3º',img:'https://randomuser.me/api/portraits/men/55.jpg'},
-    {name:'Ana Carolina Matias',course:'Engenharia Mecânica',year:'2º',img:'https://randomuser.me/api/portraits/women/12.jpg'},
-    {name:'Rafael Tchimboco',course:'Direito',year:'4º',img:'https://randomuser.me/api/portraits/men/5.jpg'},
-    {name:'Sofia Coelho',course:'Psicologia',year:'1º',img:'https://randomuser.me/api/portraits/women/15.jpg'}
-  ];
-  const studentCards=document.getElementById('studentCards');
-  students.forEach(s=>{
-    const div=document.createElement('div');
-    div.className='card';
-    div.innerHTML=`<img src="${s.img}"><h3>${s.name}</h3><p>${s.course} - ${s.year}</p>`;
-    studentCards.appendChild(div);
+// Sidebar toggle submenus
+function toggleSub(element){
+  element.classList.toggle('open');
+}
+
+// Page navigation
+function showPage(page){
+  const pages=['dashboardPage','studentsPage','facultyPage','financeTuition','financeFines','financeScholarships','hrContracts','hrPayroll','libraryPhysical','libraryDigital','lms','blog','events','about'];
+  pages.forEach(p=>{
+    document.getElementById(p).style.display=(p===page+'Page' || p===page?'block':'none');
   });
-
-  // Docentes (10)
-  const faculty=[
-    {name:'Dr. Inocêncio Graça Lopes',dept:'Engenharia Informática',spec:'IA, Sistemas Distribuídos',img:'https://randomuser.me/api/portraits/men/12.jpg'},
-    {name:'Eng. Edson Casemiro',dept:'Sistemas de Informação',spec:'Bases de Dados, Desenvolvimento Web',img:'https://randomuser.me/api/portraits/men/15.jpg'},
-    {name:'Dra. Ana Beatriz Muandumba',dept:'Administração',spec:'Gestão Estratégica',img:'https://randomuser.me/api/portraits/women/33.jpg'},
-    {name:'Dr. Carlos Nunes',dept:'Direito',spec:'Direito Penal e Civil',img:'https://randomuser.me/api/portraits/men/22.jpg'}
-  ];
-  const facultyCards=document.getElementById('facultyCards');
-  faculty.forEach(f=>{
-    const div=document.createElement('div');
-    div.className='card';
-    div.innerHTML=`<img src="${f.img}"><h3>${f.name}</h3><p>${f.dept}</p><p>${f.spec}</p>`;
-    facultyCards.appendChild(div);
-  });
-
-  // RH (15)
-  const hrData=[
-    {name:'Marta Hilária Katchiungo',dept:'RH',role:'Diretora de RH'},
-    {name:'João António Chipepo',dept:'RH',role:'Gestor de Recrutamento'},
-    {name:'Carlos Inácio',dept:'RH',role:'Analista'}
-  ];
-  const hrTable=document.getElementById('hrTable');
-  hrTable.innerHTML='<tr><th>Nome</th><th>Departamento</th><th>Cargo</th></tr>';
-  hrData.forEach(r=>{hrTable.innerHTML+=`<tr><td>${r.name}</td><td>${r.dept}</td><td>${r.role}</td></tr>`;});
-
-  // Financeiro
-  const financeData=[
-    {desc:'Propina Mensal',type:'Pagamento',value:'35.000 Kz'},
-    {desc:'Multa Atraso',type:'Multa',value:'5.000 Kz'},
-    {desc:'Bolsa Mérito',type:'Desconto',value:'20%'},
-    {desc:'Pagamento Extra',type:'Pagamento',value:'12.000 Kz'}
-  ];
-  const financeTable=document.getElementById('financeTable');
-  financeTable.innerHTML='<tr><th>Descrição</th><th>Tipo</th><th>Valor</th></tr>';
-  financeData.forEach(f=>{financeTable.innerHTML+=`<tr><td>${f.desc}</td><td>${f.type}</td><td>${f.value}</td></tr>`;});
-
-  // Dashboard Chart
-  const ctx=document.getElementById('dashboardChart').getContext('2d');
-  new Chart(ctx,{type:'bar',data:{labels:['Estudantes','Docentes','Funcionários','Bolsistas'],datasets:[{label:'Contagem',data:[2500,200,203,312],backgroundColor:['#0b3d91','#1a54b0','#3a6db0','#5a87c0']}]},options:{responsive:true}});
-  
-  const fctx=document.getElementById('financeChart').getContext('2d');
-  new Chart(fctx,{type:'line',data:{labels:['Jan','Fev','Mar','Abr','Mai','Jun'],datasets:[{label:'Receita Mensal (Kz)',data:[75000000,80000000,82000000,84500000,87000000,89000000],borderColor:'#0b3d91',backgroundColor:'rgba(11,61,145,0.2)',fill:true}]},options:{responsive:true}});
+  // Sidebar active
+  document.querySelectorAll('.sidebar ul li').forEach(li=>li.classList.remove('active'));
+  if(!elementHasSubpage(page)){
+    document.querySelector('.sidebar ul li[onclick*="'+page+'"]').classList.add('active');
+  }
+  // Topbar title
+  document.querySelector('.topbar h1').textContent=page.charAt(0).toUpperCase()+page.slice(1);
+}
+function elementHasSubpage(page){
+  return ['financeTuition','financeFines','financeScholarships','hrContracts','hrPayroll','libraryPhysical','libraryDigital'].includes(page);
 }
 </script>
 
 </body>
-</html>
+                                         </html>

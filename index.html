@@ -1,774 +1,574 @@
-<!DOCTYPE html>
-<html lang="pt-AO">
+  <!DOCTYPE html>
+<html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instituto Superior Privado Rei Luhuna</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-/* Base Styles & Typography */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-    font-family:'Montserrat',sans-serif;
-    background:#eef1f6;
-    color:#333;
-    line-height:1.6;
-}
-h1, h2, h3, h4, h5, h6 {
-    font-family:'Playfair Display',serif;
-    color:#0f3460;
-    margin-bottom:0.7em;
-}
-h2 {font-size:2.5rem;}
-h3 {font-size:1.8rem;}
-p {margin-bottom:1em;}
-a{text-decoration:none;color:inherit;}
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGU Rei Luhuna | Sistema de Gestão Universitária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
 
-/* Layout */
-.container{display:flex;min-height:100vh;}
-.sidebar{
-    width:280px; /* Slightly wider sidebar */
-    background:linear-gradient(to bottom, #0f1c3f, #07122b); /* Subtle gradient */
-    color:#e0e0e0;
-    flex-shrink:0;
-    display:flex;
-    flex-direction:column;
-    box-shadow: 4px 0 15px rgba(0,0,0,0.2); /* Deeper shadow */
-}
-.sidebar h2{
-    text-align:center;
-    padding:30px 0; /* More padding */
-    font-weight:700;
-    color:#fdb813; /* More golden accent */
-    font-size:1.8rem; /* Larger title */
-    border-bottom:1px solid rgba(253,184,19,0.2); /* Subtle separator */
-}
-.sidebar nav a{
-    padding:18px 25px; /* Increased padding */
-    display:block;
-    transition:background 0.3s ease, border-left 0.3s ease, color 0.3s ease; /* Smooth transitions */
-    border-left:6px solid transparent; /* Wider border */
-    font-weight:500;
-    font-size:1rem;
-    color:#d0d0d0;
-}
-.sidebar nav a:hover{
-    background:rgba(253,184,19,0.1); /* Lighter hover */
-    border-left:6px solid #fdb813; /* Golden border */
-    color:#ffffff;
-}
-.sidebar nav a.active{
-    background:rgba(253,184,19,0.15); /* Slightly darker active */
-    border-left:6px solid #fdb813;
-    color:#ffffff;
-    font-weight:600;
-}
-.main{flex:1;padding:0;overflow-y:auto;}
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 40px; /* More padding */
-    border-bottom:1px solid #e0e0e0;
-    background:#ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Subtle header shadow */
-}
-header h1{
-    font-size:2rem; /* Larger header title */
-    color:#0f3460;
-    font-family:'Playfair Display',serif;
-}
-header .user{display:flex;align-items:center;gap:15px;} /* More space */
-header .user img{width:45px;height:45px;border-radius:50%;border:2px solid #fdb813;object-fit:cover;} /* Border for user image */
-header .user span{font-weight:600;color:#555;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Section Styling (with background images and overlays) */
-.section{
-    display:none;
-    padding:60px 80px; /* Generous padding for content */
-    background-size:cover;
-    background-position:center center; /* Center content of image */
-    min-height:calc(100vh - 85px); /* Adjusted for header height */
-    color:#fff;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    display: flex; /* Flexbox for internal content alignment */
-    flex-direction: column;
-    justify-content: center; /* Center content vertically if not enough content */
-}
-.section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.65); /* Darker, richer overlay */
-    z-index: -1;
-}
-.section h2, .section p, .section h3 {
-    color: #fff; /* Ensure all text in sections is white */
-}
-/* Adjust specific sections that contain forms/tables */
-#admissao form, #estudantes table, #docentes table {
-    background: rgba(255, 255, 255, 0.95); /* Nearly opaque white for forms/tables */
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-#admissao h2, #admissao p, #estudantes h2, #estudantes p, #docentes h2, #docentes p {
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 25px;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e27;
+            color: white;
+            overflow-x: hidden;
+        }
 
-/* Cards */
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); /* Slightly larger cards */
-    gap:25px; /* More space between cards */
-    margin-top:30px;
-    width: 100%;
-    max-width: 1200px; /* Constrain width for larger screens */
-    margin-left: auto;
-    margin-right: auto;
-}
-.card{
-    background:rgba(255,255,255,0.92); /* Slightly less transparent */
-    border-radius:12px; /* More rounded */
-    box-shadow:0 6px 20px rgba(0,0,0,0.12); /* Deeper shadow */
-    padding:25px; /* More padding */
-    transition:transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; /* Smooth transitions */
-    cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    min-height:160px; /* Minimum height for consistency */
-}
-.card:hover{
-    transform:translateY(-8px); /* More pronounced lift */
-    box-shadow:0 12px 30px rgba(0,0,0,0.2);
-    background:rgba(255,255,255,1); /* Fully opaque on hover */
-}
-.card h3{
-    margin-bottom:10px;
-    color:#0f3460;
-    font-family:'Playfair Display',serif;
-    font-size:1.4rem;
-}
-.card p{font-size:0.95rem;color:#555;}
-.card span{
-    font-family:'Playfair Display',serif; /* Elegant font for numbers */
-    font-size:2.8em; /* Larger numbers */
-    font-weight:700;
-    color:#fdb813; /* Golden accent for numbers */
-    display:block;
-    margin-top:10px;
-    text-align:center;
-}
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+            transition: 1s ease-in-out;
+            filter: brightness(0.5);
+        }
 
-/* Form Elements */
-form{display:flex;flex-direction:column;gap:18px;max-width:600px;margin:30px auto;}
-input, select, textarea{
-    padding:12px 18px; /* More padding */
-    border-radius:8px; /* More rounded */
-    border:1px solid #ccc;
-    width:100%;
-    font-size:1rem;
-    background-color:#fefefe;
-    color:#333;
-    transition:border-color 0.3s ease, box-shadow 0.3s ease;
-}
-input:focus, select:focus, textarea:focus{
-    border-color:#fdb813;
-    outline:none;
-    box-shadow:0 0 0 3px rgba(253,184,19,0.3);
-}
-button{
-    padding:14px 25px; /* More padding */
-    border:none;
-    border-radius:8px;
-    background:#fdb813; /* Golden button */
-    color:#0f1c3f;
-    font-weight:700;
-    cursor:pointer;
-    transition:background 0.3s ease, color 0.3s ease;
-    font-size:1.1rem;
-    letter-spacing:0.5px;
-}
-button:hover{background:#e6a700;color:#fff;}
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
 
-/* Tables */
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:25px;
-    background:rgba(255,255,255,0.95);
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 6px 20px rgba(0,0,0,0.1);
-}
-th, td{
-    padding:15px 20px; /* More padding */
-    border-bottom:1px solid #eee;
-    text-align:left;
-    color:#333;
-}
-th{
-    background:#0f3460; /* Dark blue header */
-    color:#ffffff;
-    font-weight:600;
-    text-transform:uppercase;
-    font-size:0.9rem;
-    letter-spacing:0.5px;
-}
-tr:last-child td { border-bottom: none; } /* No border on last row */
-tr:nth-child(even) { background-color: #f9f9f9; } /* Zebra striping */
-td img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #ddd;}
+        .glass:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+        }
 
-/* About Us Section specifics */
-.about-content {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 15px;
-    max-width: 900px;
-    margin: 30px auto;
-    color: #333;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-.about-content h2, .about-content h3 {
-    color: #0f3460;
-    text-align: center;
-    margin-bottom: 25px;
-}
-.about-content p, .about-content ul {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1.5em;
-}
-.about-content ul {
-    list-style: none;
-    padding-left: 20px;
-}
-.about-content ul li {
-    position: relative;
-    margin-bottom: 0.8em;
-    padding-left: 25px;
-}
-.about-content ul li::before {
-    content: '•'; /* Custom bullet */
-    color: #fdb813;
-    position: absolute;
-    left: 0;
-    font-size: 1.2em;
-    line-height: 1;
-}
+        .sidebar {
+            width: 280px;
+            backdrop-filter: blur(25px);
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            overflow-y: auto;
+        }
 
-.person-message{
-    display: flex;
-    align-items: flex-start;
-    gap: 25px;
-    background: #fdfdfd; /* Lighter background for messages */
-    padding: 30px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    color: #333;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.person-message:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-.person-message img{
-    width: 90px; /* Larger images for leadership */
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
-    border: 3px solid #fdb813;
-}
-.person-message .text-content h3{
-    margin-top: 0;
-    color: #0f3460;
-    font-size: 1.6rem;
-}
-.person-message .text-content p{
-    margin-bottom: 0;
-    font-size: 1rem;
-    line-height: 1.6;
-}
+        .main-container {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-/* Footer */
-footer{
-    text-align:center;
-    padding:25px 0;
-    margin-top:40px;
-    color:#777;
-    border-top:1px solid #e0e0e0;
-    font-size:0.9rem;
-    background:#ffffff;
-}
+        .nav-btn {
+            padding: 14px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: left;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            background: none;
+            width: 100%;
+            margin-bottom: 8px;
+        }
 
-/* Chart Container */
-.chart-container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    margin-top: 30px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            transform: translateX(3px);
+        }
 
-/* Responsive Adjustments */
-@media(max-width:1024px){
-    .section{padding:50px 60px;}
-    .cards{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));}
-}
-@media(max-width:768px){
-    .container{flex-direction:column;}
-    .sidebar{
-        width:100%;
-        flex-direction:row;
-        overflow-x:auto;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .sidebar h2{display:none;} /* Hide title on small screens */
-    .sidebar nav{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:center;}
-    .sidebar nav a{
-        border-left:none;
-        border-bottom:6px solid transparent;
-        padding:12px 15px; /* Smaller padding */
-        white-space:nowrap;
-        font-size:0.9rem;
-    }
-    .sidebar nav a:hover{border-bottom:6px solid #fdb813;border-left:none;}
-    .sidebar nav a.active{border-bottom:6px solid #fdb813;border-left:none;}
-    .main{padding-top:0;} /* No extra padding if sidebar is top */
-    header{padding:15px 20px;}
-    header h1{font-size:1.5rem;}
-    header .user img{width:35px;height:35px;}
-    header .user span{display:none;} /* Hide username on small screens */
-    .section{padding:30px 20px;}
-    .cards{grid-template-columns:1fr;gap:20px;}
-    .card{padding:20px;}
-    form{padding:20px;}
-    .about-content{padding:25px;}
-    .person-message{flex-direction:column;align-items:center;text-align:center;}
-    .person-message img{margin-bottom:15px;}
-    .person-message .text-content h3{margin-bottom:10px;}
-    th, td{padding:10px 15px;}
-}
-</style>
+        .nav-btn.active {
+            background: linear-gradient(90deg, #8b5cf633, #7c3aed33);
+            color: #a78bfa;
+            border-left: 3px solid #a78bfa;
+            padding-left: 17px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #chatButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(90deg, #a78bfa, #7c3aed);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        #chatButton:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(167, 139, 250, 0.6);
+        }
+
+        #chatWindow {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: none;
+            flex-direction: column;
+            z-index: 101;
+            overflow: hidden;
+        }
+
+        #chatWindow.active {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .chat-close:hover {
+            color: white;
+        }
+
+        #chatBox {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 8px;
+        }
+
+        #chatInput {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        #chatInput::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #chatInput:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+        }
+
+        .chat-send-btn {
+            background: linear-gradient(90deg, #a78bfa, #7c3aed);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        h1.gradient-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #a78bfa, #7c3aed, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            line-height: 1.1;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            outline: none;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #a78bfa, #7c3aed);
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(167, 139, 250, 0.6);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .status-pending {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fed7aa;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 240px;
+                padding: 15px;
+            }
+
+            .main-container {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+
+            .nav-btn {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            h1.gradient-title {
+                font-size: 2.2rem;
+            }
+
+            #chatWindow {
+                width: calc(100% - 40px);
+                max-height: 350px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                width: 200px;
+                padding: 12px;
+            }
+
+            .main-container {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+                gap: 8px;
+            }
+
+            .nav-btn i {
+                font-size: 1rem;
+            }
+
+            h1.gradient-title {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar::-webkit-scrollbar,
+        #chatBox::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track,
+        #chatBox::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb,
+        #chatBox::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover,
+        #chatBox::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<div class="container">
+    <div id="bg"></div>
 
-<div class="sidebar">
-<h2>ISP Rei Luhuna</h2>
-<nav>
-<a href="#" class="active" onclick="showSection('dashboard',event)">Dashboard</a>
-<a href="#" onclick="showSection('admissao',event)">Admissão</a>
-<a href="#" onclick="showSection('matriculas',event)">Matrículas</a>
-<a href="#" onclick="showSection('estudantes',event)">Estudantes</a>
-<a href="#" onclick="showSection('docentes',event)">Docentes</a>
-<a href="#" onclick="showSection('financeiro',event)">Financeiro</a>
-<a href="#" onclick="showSection('rh',event)">Recursos Humanos</a>
-<a href="#" onclick="showSection('biblioteca',event)">Biblioteca</a>
-<a href="#" onclick="showSection('lms',event)">Cursos/LMS</a>
-<a href="#" onclick="showSection('exames',event)">Exames</a>
-<a href="#" onclick="showSection('blog',event)">Blog</a>
-<a href="#" onclick="showSection('sobre',event)">Sobre Nós</a>
-</nav>
-</div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2 class="text-2xl font-extrabold mb-8 text-white text-center">SGU <span class="text-purple-400">Rei Luhuna</span></h2>
+        
+        <div class="mb-6">
+            <p class="text-xs text-gray-500 uppercase tracking-wider mb-3">Módulos Académicos</p>
+            <button class="nav-btn active" onclick="nav('home',this)"><i class="fas fa-home"></i> <span>Dashboard</span></button>
+            <button class="nav-btn" onclick="nav('academic',this)"><i class="fas fa-book"></i> <span>Académico</span></button>
+            <button class="nav-btn" onclick="nav('grades',this)"><i class="fas fa-chart-bar"></i> <span>Notas</span></button>
+            <button class="nav-btn" onclick="nav('enrollment',this)"><i class="fas fa-clipboard-list"></i> <span>Matrículas</span></button>
+        </div>
 
-<div class="main">
-<header>
-<h1>Instituto Superior Privado Rei Luhuna</h1>
-<div class="user">
-<img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User Avatar">
-<span>Edgar Songanga</span>
-</div>
-</header>
+        <div class="mb-6">
+            <p class="text-xs text-gray-500 uppercase tracking-wider mb-3">Módulos Financeiros</p>
+            <button class="nav-btn" onclick="nav('financial',this)"><i class="fas fa-credit-card"></i> <span>Financeiro</span></button>
+            <button class="nav-btn" onclick="nav('invoices',this)"><i class="fas fa-receipt"></i> <span>Faturas</span></button>
+            <button class="nav-btn" onclick="nav('scholarships',this)"><i class="fas fa-graduation-cap"></i> <span>Bolsas</span></button>
+        </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="section" style="display:flex; background-image:url('https://images.unsplash.com/photo-1596496050450-1d1b720e219b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center; margin-bottom:40px;">Visão Geral Estratégica</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Uma experiência premium simulando a realidade do Instituto Superior Privado Rei Luhuna, Cunene, Angola.
-        Nosso compromisso é com a excelência acadêmica e o impacto transformador.
-    </p>
-    <div class="cards">
-        <div class="card" onclick="showSection('estudantes',event)">
-            <h3>Estudantes Ativos</h3>
-            <p>Gerencie perfis e matrículas.</p>
-            <span>2500+</span>
+        <div class="mb-6">
+            <p class="text-xs text-gray-500 uppercase tracking-wider mb-3">Gestão</p>
+            <button class="nav-btn" onclick="nav('staff',this)"><i class="fas fa-users"></i> <span>Docentes</span></button>
+            <button class="nav-btn" onclick="nav('reports',this)"><i class="fas fa-chart-line"></i> <span>Relatórios</span></button>
+            <button class="nav-btn" onclick="nav('library',this)"><i class="fas fa-book-open"></i> <span>Biblioteca</span></button>
+            <button class="nav-btn" onclick="nav('communications',this)"><i class="fas fa-envelope"></i> <span>Comunicações</span></button>
         </div>
-        <div class="card" onclick="showSection('docentes',event)">
-            <h3>Corpo Docente</h3>
-            <p>Conheça nossos educadores.</p>
-            <span>200+</span>
-        </div>
-        <div class="card" onclick="showSection('financeiro',event)">
-            <h3>Saúde Financeira</h3>
-            <p>Relatórios e gestão de recursos.</p>
-            <span>EBITDA+</span>
-        </div>
-        <div class="card">
-            <h3>Parceria Estratégica</h3>
-            <p>Magestade Pura Digital.</p>
-            <span>Inovação</span>
+
+        <div class="mt-auto text-xs text-gray-500 text-center pt-4 border-t border-gray-700">
+            Instituto Superior Privado Rei Luhuna<br/>
+            <span class="font-semibold text-gray-400">Luanda, Angola</span>
         </div>
     </div>
 
-    <div class="chart-container">
-        <h3 style="color:#0f3460; text-align:center; margin-bottom:20px;">Evolução de Matrículas Anual</h3>
-        <canvas id="enrollmentChart"></canvas>
-    </div>
-</div>
-
-<!-- ADMISSÃO -->
-<div id="admissao" class="section" style="background-image:url('https://images.unsplash.com/photo-1510590832049-39906d20364e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2>Processo de Admissão Simplificado</h2>
-    <p>Preencha o formulário para iniciar sua jornada no ISP Rei Luhuna. Construindo futuros brilhantes.</p>
-    <form>
-        <input type="text" placeholder="Nome completo" aria-label="Nome completo" required>
-        <input type="email" placeholder="Email institucional" aria-label="Email" required>
-        <input type="tel" placeholder="Telefone (com DDD)" aria-label="Telefone" pattern="[0-9]{9}" required>
-        <input type="date" aria-label="Data de Nascimento" required>
-        <select aria-label="Curso desejado" required>
-            <option value="">Selecione o Curso Desejado</option>
-            <option value="engenharia">Engenharia</option>
-            <option value="gestao">Gestão Empresarial</option>
-            <option value="medicina">Ciências Médicas</option>
-            <option value="direito">Direito e Legislação</option>
-            <option value="tecnologia">Tecnologia da Informação</option>
-        </select>
-        <textarea placeholder="Fale-nos um pouco sobre seu interesse no curso e suas aspirações." rows="4" aria-label="Mensagem de interesse"></textarea>
-        <button type="submit">Enviar Candidatura</button>
-    </form>
-</div>
-
-<!-- MATRICULAS -->
-<div id="matriculas" class="section" style="background-image:url('https://images.unsplash.com/photo-1549419133-d0831634b07f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Gestão de Matrículas & Plano de Estudos</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Inscreva-se em disciplinas, acesse seu histórico acadêmico e planeje seu percurso educacional com facilidade.
-    </p>
-    <!-- Add more specific content here later if needed, e.g., a form to search for courses, academic calendar. -->
-</div>
-
-<!-- ESTUDANTES -->
-<div id="estudantes" class="section" style="background-image:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2>Nossa Comunidade Estudantil</h2>
-    <p>Explore os perfis de nossos talentosos estudantes. Juntos, construímos o futuro.</p>
-    <input type="text" placeholder="Pesquisar estudante..." onkeyup="filterTable('studentTable', this.value)" aria-label="Pesquisar estudante">
-    <table id="studentTable">
-        <tr><th>Foto</th><th>Nome Completo</th><th>Curso</th><th>ID Estudante</th><th>Status</th></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Student photo"></td><td>Inocêncio Graça Lopes</td><td>Engenharia Civil</td><td>ST001</td><td>Ativo</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Student photo"></td><td>Edson Casemiro Santos</td><td>Gestão Financeira</td><td>ST002</td><td>Ativo</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Student photo"></td><td>Ana Clara Nascimento Silva</td><td>Medicina Geral</td><td>ST003</td><td>Ativa</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Student photo"></td><td>Filipe Gomes de Sousa</td><td>Direito Internacional</td><td>ST004</td><td>Ativo</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/women/50.jpg" alt="Student photo"></td><td>Maria Joana Pereira</td><td>Tecnologia da Informação</td><td>ST005</td><td>Ativa</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/58.jpg" alt="Student photo"></td><td>Carlos Alberto Costa</td><td>Engenharia Elétrica</td><td>ST006</td><td>Ativo</td></tr>
-    </table>
-</div>
-
-<!-- DOCENTES -->
-<div id="docentes" class="section" style="background-image:url('https://images.unsplash.com/photo-1507679776077-e6dd06173456?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2>Excelência em Nosso Corpo Docente</h2>
-    <p>Nossos professores são líderes em suas áreas, dedicados a inspirar e guiar a próxima geração de profissionais.</p>
-    <input type="text" placeholder="Pesquisar docente..." onkeyup="filterTable('teacherTable', this.value)" aria-label="Pesquisar docente">
-    <table id="teacherTable">
-        <tr><th>Foto</th><th>Nome Completo</th><th>Disciplina Principal</th><th>Email Institucional</th><th>Titulação</th></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Teacher photo"></td><td>Engenheiro Inocêncio Lópes</td><td>Matemática Avançada & Algoritmos</td><td>inocencio.lopes@rei-luhuna.ao</td><td>Doutor</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/14.jpg" alt="Teacher photo"></td><td>Dr. Edson Casimiro Santos</td><td>Gestão Estratégica & Inovação</td><td>edson.casimiro@rei-luhuna.ao</td><td>Doutor</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/women/16.jpg" alt="Teacher photo"></td><td>Dra. Ana Carla Nascimento</td><td>Clínica Médica & Saúde Pública</td><td>ana.nascimento@rei-luhuna.ao</td><td>Doutora</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/men/17.jpg" alt="Teacher photo"></td><td>Prof. Dr. Pedro Mendes</td><td>Direito Constitucional & Humano</td><td>pedro.mendes@rei-luhuna.ao</td><td>Livre-Docente</td></tr>
-        <tr><td><img src="https://randomuser.me/api/portraits/women/18.jpg" alt="Teacher photo"></td><td>M.Sc. Sofia Alves</td><td>Desenvolvimento Web & Mobile</td><td>sofia.alves@rei-luhuna.ao</td><td>Mestre</td></tr>
-    </table>
-</div>
-
-<!-- FINANCEIRO -->
-<div id="financeiro" class="section" style="background-image:url('https://images.unsplash.com/photo-1563986768-a052692c810a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Departamento Financeiro</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Transparência e Eficiência na gestão de propinas, bolsas e recursos institucionais.
-    </p>
-</div>
-
-<!-- RH -->
-<div id="rh" class="section" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Recursos Humanos Estratégicos</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Atraímos e retemos os melhores talentos, garantindo um ambiente de trabalho inovador e produtivo.
-    </p>
-</div>
-
-<!-- BIBLIOTECA -->
-<div id="biblioteca" class="section" style="background-image:url('https://images.unsplash.com/photo-1521587765099-efb68766181a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Biblioteca Digital & Acervo Físico</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Um centro de conhecimento vasto, com acesso a milhares de obras e recursos para sua pesquisa e estudo.
-    </p>
-</div>
-
-<!-- LMS -->
-<div id="lms" class="section" style="background-image:url('https://images.unsplash.com/photo-1546410531-bb4ffa233215?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Plataforma de Aprendizagem (LMS) Avançada</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Acesso intuitivo a cursos, materiais didáticos, fóruns e acompanhamento de progresso.
-    </p>
-</div>
-
-<!-- EXAMES -->
-<div id="exames" class="section" style="background-image:url('https://images.unsplash.com/photo-1560790890-a35987373f78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Calendário e Resultados de Exames</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Informações detalhadas sobre exames normais, de recurso e especiais, sempre atualizadas.
-    </p>
-</div>
-
-<!-- BLOG -->
-<div id="blog" class="section" style="background-image:url('https://images.unsplash.com/photo-1492573232077-8c383e5fd397?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <h2 style="text-align:center;">Blog: Notícias e Perspectivas</h2>
-    <p style="text-align:center; max-width:800px; margin:0 auto 50px auto; font-size:1.1rem;">
-        Mantenha-se informado sobre as últimas novidades, pesquisas e eventos do ISP Rei Luhuna e da região.
-    </p>
-    <div class="cards">
-        <div class="card">
-            <h3>Notícias de Angola: Inovação na Educação Superior</h3>
-            <p>O ISP Rei Luhuna lidera iniciativas para modernizar o ensino superior em todo o país.</p>
-        </div>
-        <div class="card">
-            <h3>Destaque do Cunene: Impacto Social Universitário</h3>
-            <p>Nossos projetos de extensão transformam comunidades na província do Cunene.</p>
-        </div>
-        <div class="card">
-            <h3>Atualizações de Ondjiva: Tecnologia e Sustentabilidade</h3>
-            <p>Novas parcerias em Ondjiva impulsionam pesquisa em energias renováveis.</p>
-        </div>
-        <div class="card">
-            <h3>Eventos Acadêmicos: Conferência Anual de Pesquisa</h3>
-            <p>Conheça os resultados da nossa última conferência, reunindo mentes brilhantes de Angola e do mundo.</p>
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 p-6 md:p-10 overflow-y-auto relative z-10">
+            <div id="content"></div>
         </div>
     </div>
-</div>
 
-<!-- SOBRE NÓS -->
-<div id="sobre" class="section" style="background-image:url('https://images.unsplash.com/photo-1552581234-26160f608093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000');">
-    <div class="about-content">
-        <h2>ISP Rei Luhuna: Liderança, Visão e Compromisso</h2>
-        <p>No Instituto Superior Privado Rei Luhuna, somos impulsionados pela busca incessante da excelência acadêmica e pelo compromisso inabalável com o desenvolvimento humano e social de Angola. Localizados estrategicamente no vibrante coração do Cunene, a nossa instituição ergue-se como um farol de conhecimento, inovação e progresso, moldando as mentes que construirão o futuro.</p>
+    <!-- CHAT FLOATING BUTTON -->
+    <button id="chatButton" onclick="toggleChat()" title="Assistente Virtual">
+        <i class="fas fa-comments"></i>
+    </button>
 
-        <h3 style="color: #fdb813; margin-top: 30px;">Mensagens da Liderança Institucional</h3>
-
-        <div class="person-message">
-            <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Foto do Presidente Dr. João Kussumua">
-            <div class="text-content">
-                <h3>Dr. João Kussumua - Magnífico Reitor</h3>
-                <p>"É com profunda honra e um imenso senso de responsabilidade que conduzo os destinos do Instituto Superior Privado Rei Luhuna. Acredito fervorosamente que a educação de qualidade é a pedra angular para o empoderamento individual e o avanço coletivo de uma nação. Em Cunene, estamos edificando um alicerce robusto para os futuros líderes, inovadores e profissionais de Angola, capacitando-os com as competências globais e o discernimento crítico necessários para navegar e moldar os complexos desafios do século XXI. Nosso propósito é nutrir cidadãos do mundo com uma profunda conexão às suas raízes angolanas, prontos para inovar, inspirar e catalisar a transformação social e econômica."</p>
-            </div>
+    <!-- CHAT WINDOW -->
+    <div id="chatWindow">
+        <div class="chat-header">
+            <h3>Assistente Virtual</h3>
+            <button class="chat-close" onclick="toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-
-        <div class="person-message">
-            <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Foto da Secretária Dra. Sofia Manuel">
-            <div class="text-content">
-                <h3>Dra. Sofia Manuel - Secretária Geral Acadêmica</h3>
-                <p>"A Secretaria Geral Acadêmica do ISP Rei Luhuna está integralmente dedicada a assegurar uma gestão transparente, eficaz e humanizada de todos os processos acadêmicos e administrativos. Trabalhamos com afinco para oferecer suporte abrangente aos nossos valorosos estudantes, dedicados docentes e comprometida equipe de funcionários, cultivando um ecossistema que privilegia o aprendizado contínuo, a pesquisa de vanguarda e a inovação disruptiva. Sustentamos que a rigorosa organização e a integridade são pilares inegociáveis para o êxito duradouro de uma instituição de ensino superior. Reafirmamos nosso compromisso de que o ISP Rei Luhuna permaneça como um benchmark de excelência e relevância em Angola e na comunidade internacional."</p>
-            </div>
+        <div id="chatBox"></div>
+        <div class="chat-input-container">
+            <input id="chatInput" placeholder="Escreva a sua pergunta..." onkeydown="if(event.key==='Enter') sendMsg()">
+            <button class="chat-send-btn" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
         </div>
-
-        <h3 style="color: #fdb813; margin-top: 40px; text-align:center;">Nossos Pilares Institucionais: Excelência & Impacto</h3>
-        <p>A solidez da nossa instituição é forjada em princípios imutáveis que orientam cada passo na formação de mentes brilhantes e na construção de um futuro grandioso para Angola e o mundo.</p>
-
-        <h4>Missão:</h4>
-        <p>Formar uma nova geração de profissionais altamente competentes, eticamente íntegros e inovadores, capazes de gerar um impacto positivo e sustentável nas suas comunidades e no palco global. Nosso modelo educacional integra um rigor acadêmico intransigente com a aplicação prática e relevante do conhecimento, preparando indivíduos para serem catalisadores de mudança e motores de desenvolvimento em Angola e além-fronteiras, sempre ancorados em valores éticos sólidos, uma consciência social aguçada e um espírito empreendedor proativo.</p>
-
-        <h4>Visão:</h4>
-        <p>Alcançar o reconhecimento como um polo de excelência acadêmica e um motor de inovação em Angola e na África Austral. Aspiramos a ser distinguidos pela superlativa qualidade do nosso ensino, pela originalidade e relevância de nossa pesquisa, e por nosso compromisso inabalável com o progresso social. A meta é ser a escolha primordial para estudantes e colaboradores que buscam uma instituição de ensino superior dinâmica, inclusiva e com uma capacidade de transformação autêntica e duradoura.</p>
-
-        <h4>Valores:</h4>
-        <ul>
-            <li><strong>Excelência Acadêmica:</strong> A busca incessante pela máxima qualidade em todos os domínios do ensino, pesquisa, extensão e serviços administrativos.</li>
-            <li><strong>Ética e Integridade:</strong> Aderência irrestrita aos mais elevados padrões de conduta ética, transparência e respeito em todas as interações e decisões.</li>
-            <li><strong>Inovação e Pioneirismo:</strong> Fomento contínuo da criatividade, do pensamento crítico disruptivo e da aplicação de novas ideias que impulsionem o progresso.</li>
-            <li><strong>Inclusão e Diversidade:</strong> Promoção ativa de um ambiente de equidade, valorização da diversidade e acesso universal à educação de alta qualidade.</li>
-            <li><strong>Sustentabilidade Holística:</strong> Compromisso com práticas responsáveis que garantam um futuro próspero e equilibrado para as gerações presentes e futuras, em harmonia com o meio ambiente e a sociedade.</li>
-            <li><strong>Compromisso Transformador com a Comunidade:</strong> Contribuição ativa e significativa para o desenvolvimento socioeconômico, cultural e ambiental do Cunene e de toda Angola.</li>
-        </ul>
     </div>
-</div>
 
-</div>
-</div>
+    <script>
+        // BACKGROUND ROTATIVO
+        const imgs = [
+            "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1427504494785-cdafb3d3b798?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1516534775068-bb57b6439066?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3"
+        ];
+        let i = 0;
+        function bg() {
+            document.getElementById("bg").style.background = `linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.9)),url(${imgs[i]}) center/cover fixed`;
+            i = (i + 1) % imgs.length;
+        }
+        setInterval(bg, 7000);
+        bg();
 
-<footer>
-&copy; 2026 Instituto Superior Privado Rei Luhuna | Powered by Magestade Pura Digital
-</footer>
-
-<script>
-// Navegação entre seções
-function showSection(id,e){
-    if(e) e.preventDefault(); // Only prevent default if event object is passed
-    document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-    const activeSection = document.getElementById(id);
-    if (activeSection) {
-        activeSection.style.display='flex'; // Use flex for centering content
-    }
-    document.querySelectorAll('.sidebar nav a').forEach(a=>a.classList.remove('active'));
-    if(e && e.target) e.target.classList.add('active');
-    else { // Handle initial load or direct function call
-        const sidebarLink = document.querySelector(`.sidebar nav a[onclick*="showSection('${id}')"]`);
-        if (sidebarLink) sidebarLink.classList.add('active');
-    }
-
-    // Initialize chart if dashboard is shown
-    if (id === 'dashboard' && !window.myEnrollmentChart) {
-        initEnrollmentChart();
-    }
-}
-
-// Filtros de busca
-function filterTable(tableId,value){
-    value=value.toLowerCase();
-    const table = document.getElementById(tableId);
-    if (!table) return;
-
-    table.querySelectorAll('tr').forEach((row,index)=>{
-        if(index===0)return; // Skip header row
-        let match=false;
-        row.querySelectorAll('td').forEach(td=>{
-            if(td.innerText.toLowerCase().includes(value)) match=true;
-        });
-        row.style.display=match?'table-row':'none'; // Ensure display is 'table-row' for visibility
-    });
-}
-
-// Chart.js Initialization for Dashboard
-let myEnrollmentChart; // Global variable to store chart instance
-
-function initEnrollmentChart() {
-    const ctx = document.getElementById('enrollmentChart');
-    if (!ctx) return;
-
-    const data = {
-        labels: ['2022', '2023', '2024', '2025', '2026'],
-        datasets: [{
-            label: 'Novas Matrículas',
-            data: [1800, 2100, 2350, 2500, 2700],
-            backgroundColor: 'rgba(253, 184, 19, 0.7)',
-            borderColor: 'rgba(253, 184, 19, 1)',
-            borderWidth: 1,
-            fill: true,
-            tension: 0.4
-        },
-        {
-            label: 'Taxa de Retenção (%)',
-            data: [85, 87, 88, 89, 90],
-            backgroundColor: 'rgba(15, 52, 96, 0.7)',
-            borderColor: 'rgba(15, 52, 96, 1)',
-            borderWidth: 1,
-            type: 'line', // This dataset will be a line chart
-            yAxisID: 'y1', // Link to a second Y-axis
-            tension: 0.4
-        }]
-    };
-
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#333',
-                    font: {
-                        family: 'Montserrat',
-                        size: 14
-                    }
-                }
+        // DATABASE DUMMY
+        let DB = JSON.parse(localStorage.getItem("sgu_rei_luhuna") || `{
+            "user": {
+                "name": "João Silva",
+                "role": "Estudante",
+                "matricula": "RL2024001",
+                "email": "joao.silva@reilu.ao",
+                "phone": "+244923456789"
             },
-            title: {
-                display: false,
-                text: 'Evolução de Matrículas Anual',
-                font: {
-                    family: 'Playfair Display',
-                    size: 20
-                },
-                color: '#0f3460'
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#555',
-                    font: { family: 'Montserrat' }
-                },
-                grid: {
-                    color: 'rgba(0,0,0,0.05)'
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Número de Matrículas',
-                    color: '#555',
-                    font: { family: 'Montserrat', size: 14 }
-                },
-                ticks: {
-                    color: '#555',
-                    font: { family: 'Montserrat' }
-                },
-                grid: {
-                    color: 'rgba(0,0,0,0.05)'
-                }
-            },
-            y1: { // Second Y-axis for retention rate
-                type: 'linear',
-                display: true,
-                position: 'right',
-                beginAtZero: false,
-                title: {
-                    display: true,
-                    text: 'Taxa de Retenção (%)',
-                    color: '#555',
-                    font: { family: 'Montserrat', size: 14 }
-                },
-                grid: {
-                    drawOnChartArea: false, // Only draw grid lines for the first y-axis
-                    color: 'rgba(0,0,0,0.05)'
-                },
-                ticks: {
-                    color: '#555',
-                    font: { family: 'Montserrat' },
-                    callback: function(value) {
-                        return value + '%';
-                    }
-                }
+            "students": [
+                {"name": "João Silva", "matricula": "RL2024001", "course": "Engenharia Informática", "status": "Ativo", "financial": "Regular"},
+                {"name": "Maria Santos", "matricula": "RL2024002", "course": "Administração", "status": "Ativo", "financial": "Atrasado"},
+                {"name": "Pedro Neves", "matricula": "RL2024003", "course": "Direito", "status": "Inativo", "financial": "Regular"}
+            ],
+            "grades": [
+                {"subject": "Programação I", "grade": 18, "status": "Aprovado"},
+                {"subject": "Matemática Discreta", "grade": 15, "status": "Aprovado"},
+                {"subject": "Estrutura de Dados", "grade": 19, "status": "Aprovado"}
+            ],
+            "financial": [
+                {"month": "Janeiro 2025", "amount": 45000, "status": "Pago", "dueDate": "2025-01-15"},
+                {"month": "Fevereiro 2025", "amount": 45000, "status": "Pendente", "dueDate": "2025-02-15"},
+                {"month": "Março 2025", "amount": 45000, "status": "Vencido", "dueDate": "2025-03-15"}
+            ],
+            "staff": [
+                {"name": "Prof. Dr. Kapenda Mário", "title": "Reitor", "department": "Reitoria", "email": "kapenda@reilu.ao", "phone": "+244923000001"},
+                {"name": "Eng. Alberto Marcos", "title": "Coordenador de Engenharia", "department": "Engenharia", "email": "alberto@reilu.ao", "phone": "+244923000002"},
+                {"name": "Dra. Jenny Baptista", "title": "Coordenadora de Administração", "department": "Administração", "email": "jenny@reilu.ao", "phone": "+244923000003"}
+            ],
+            "library": [
+                {"title": "Introdução à Programação", "author": "Bjarne Stroustrup", "isbn": "978-0134685991", "status": "Disponível"},
+                {"title": "Estrutura de Dados", "author": "Mark Allen Weiss", "isbn": "978-0132576277", "status": "Emprestado"},
+                {"title": "Algoritmos", "author": "Robert Sedgewick", "isbn": "978-0321573513", "status": "Disponível"}
+            ],
+            "announcements": [
+                {"title": "Calendário Académico 2025", "date": "2025-01-10", "content": "O calendário académico para o ano 2025 foi publicado. Consulte o portal para mais detalhes."},
+                {"title": "Inscrição em Disciplinas", "date": "2025-01-15", "content": "Período de inscrição em disciplinas aberto até 31 de janeiro."},
+                {"title": "Aviso Importante", "date": "2025-01-20", "content": "Lembrete: Propinas devem ser pagas até o dia 15 de cada mês."}
+            ]
+        }`);
+
+        function save() {
+            localStorage.setItem("sgu_rei_luhuna", JSON.stringify(DB));
+        }
+
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+        }
+
+        function nav(page, el) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            el.classList.add("active");
+            const contentDiv = document.getElementById("content");
+            contentDiv.classList.remove('fade-in');
+            void contentDiv.offsetWidth;
+            contentDiv.classList.add('fade-in');
+
+            switch (page) {
+                case "home": renderHome(); break;
+                case "academic": renderAcademic(); break;
+                case "grades": renderGrades(); break;
+                case "enrollment": renderEnrollment(); break;
+                case "financial": renderFinancial(); break;
+                case "invoices": renderInvoices(); break;
+                case "scholarships": renderScholarships(); break;
+                case "staff": renderStaff(); break;
+                case "reports": renderReports(); break;
+                case "library": renderLibrary(); break;
+                case "communications": renderCommunications(); break;
             }
         }
-    };
 
-    myEnrollmentChart = new Chart(ctx, {
-        type: 'bar', // Default type for the main dataset
-        data: data,
-        options: options
-    });
-}
-
-// Ensure the dashboard is shown and chart is initialized on page load
-document.addEventListener('DOMContentLoaded', () => {
-    showSection('dashboard');
-});
-</script>
-
-</body>
-</html>
+        // RENDER FUNCTIONS
+        function renderHome() {
+            content.innerHTML = `
+                <div class="fade-in">
+                    <h1 class="gradient-title mb-4">Bem-vindo ao SGU Rei Luhuna</h1>
+                    <p class="text-gray-300 text-xl mb-8">Sistema de Gestão Universitária - Instituto Superior Privado Rei Luhuna</p>
+                    
+                    <div class="glass mb-6 p-6">
+                        <p class="text-lg mb-2"><strong>Utilizador:</strong> ${DB.user.name}</p>
+           
